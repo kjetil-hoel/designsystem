@@ -1,35 +1,100 @@
 <script>
+  import { getContext } from 'svelte';
+
   /**
-   * Radio button
+   * Radio
    *
-   * @prop {string} [value] - Value of the `input` element
+   * @prop {string} [description] - Description for the Radio.
+   * @prop {boolean} [disabled=false] - Disables the field.
+   * @prop {boolean} [readOnly=false] - Makes the field read-only.
+   * @prop {string} [value] - Value of the input field.
+   * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
+   * @prop {string} [id] - Override internal id.
+   * @prop {boolean} [checked] - Override internal id.
    */
+
   export let description = '';
-  export let size = 'medium';
-  export let hideLabel = false;
-  export let readOnly = false;
   export let disabled = false;
+  export let readOnly = false;
   export let value;
+  export let size = 'medium';
+  export let id = '';
+  export let checked = false;
+
+  const radioGroup = getContext('radioGroup');
+
+  if (radioGroup && radioGroup.selectedValue) {
+    radioGroup.selectedValue.subscribe((selected) => {
+      checked = selected === value;
+    });
+  }
+
+  function toggle() {
+    if (!disabled && !readOnly && !checked) {
+      if (radioGroup && radioGroup.setCheckedValue) {
+        radioGroup.setCheckedValue(value);
+      }
+    }
+  }
+
+  function handleKeydown(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggle();
+    }
+  }
 
   // Computed class names for the component elements
   let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
     readOnly ? 'readonly' : ''
   } ${$$props.class || ''}`;
-  let descriptionClasses = `description ${hideLabel ? 'visually-hidden' : ''}`;
 </script>
 
-<div class={formFieldClasses}>
+<div
+  class={formFieldClasses}
+  on:click={toggle}
+  on:keydown={handleKeydown}
+  tabindex="0"
+  role="radio"
+  aria-checked={checked}
+  aria-label="Select an option"
+  aria-labelledby={description}
+>
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 22 22"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <circle
+      class="box"
+      name="circle"
+      cx="11"
+      cy="11"
+      r="10"
+      fill="white"
+      stroke="#00315D"
+      stroke-width="2"
+    />
+    {#if checked}
+      <circle
+        class="checked"
+        name="checked"
+        cx="11"
+        cy="11"
+        r="4.88889"
+        fill="#0062BA"
+      />
+    {/if}
+  </svg>
   {#if description}
-    <p
-      id="description"
-      class={descriptionClasses}
-    >
-      {description}
-    </p>
+    <span>{description}</span>
   {/if}
 </div>
 
-<style>
+<style lang="scss">
   .container {
     position: relative;
     min-width: 44px;
@@ -133,7 +198,8 @@
   }
 
   .input:focus-visible ~ .icon {
-    outline: var(--fds-focus-border-width) solid var(--fds-outer-focus-border-color);
+    outline: var(--fds-focus-border-width) solid
+      var(--fds-outer-focus-border-color);
     outline-offset: 0;
   }
 
@@ -176,7 +242,10 @@
     }
 
     .container:not(.disabled, .readonly) > .control:hover > .icon > .box,
-    .container:not(.disabled, .readonly):has(.label:hover) > .control > .icon > .box {
+    .container:not(.disabled, .readonly):has(.label:hover)
+      > .control
+      > .icon
+      > .box {
       stroke: var(--fds-semantic-border-input-hover);
     }
   }

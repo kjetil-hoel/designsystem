@@ -1,6 +1,8 @@
 <script>
   import Alert from '$lib/components/Alert/Alert.svelte';
   import Button from '$lib/components/Button/Button.svelte';
+  import Radio from '$lib/components/Form/Radio/Radio.svelte';
+  import RadioGroup from '$lib/components/Form/Radio/RadioGroup.svelte';
   import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
   import Link from '$lib/components/Link/Link.svelte';
   import List from '$lib/components/List/List.svelte';
@@ -8,6 +10,12 @@
   import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
 
   let textfieldValue = '';
+
+  let selectedValue = 'option2';
+
+  function handleGroupChange(event) {
+    selectedValue = event.detail;
+  }
 </script>
 
 <h1>Test components here!</h1>
@@ -49,3 +57,22 @@
 <Tag size="xsmall">Tag XS</Tag>
 <Tag size="small">Tag small</Tag>
 <Tag size="medium">Tag medium</Tag>
+
+<RadioGroup
+  bind:value={selectedValue}
+  on:change={handleGroupChange}
+  inline={true}
+>
+  <Radio
+    value="option1"
+    description="Option 1"
+  />
+  <Radio
+    value="option2"
+    description="Option 2"
+  />
+  <Radio
+    value="option3"
+    description="Option 3"
+  />
+</RadioGroup>
