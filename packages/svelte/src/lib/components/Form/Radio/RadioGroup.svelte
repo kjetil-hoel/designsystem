@@ -6,9 +6,9 @@
   export let description = '';
   export let readOnly = false;
   export let disabled = false;
-  export let error;
+  export let error = '';
   export let value;
-  export let defaultValue;
+  export let defaultValue = '';
   export let required = false;
   export let inline = false;
   export let size = 'medium';
