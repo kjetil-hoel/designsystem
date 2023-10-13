@@ -1,6 +1,7 @@
 <script>
   import Alert from '$lib/components/Alert/Alert.svelte';
   import Button from '$lib/components/Button/Button.svelte';
+  import Switch from '$lib/components/Form/Switch/Switch.svelte';
   import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
   import Link from '$lib/components/Link/Link.svelte';
   import List from '$lib/components/List/List.svelte';
@@ -8,9 +9,12 @@
   import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
 
   let textfieldValue = '';
+  $: isChecked = false;
 </script>
 
 <h1>Test components here!</h1>
+
+<Switch checked={isChecked} />
 
 <Button>First</Button>
 <Button color="second">Secondary</Button>

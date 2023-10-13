@@ -22,3 +22,9 @@ WIP Component library for Statsforvalternes Fellesorganisasjon
 2. Run `npm run dev`
 3. In your browser, navigate to the route you placed the component
 4. You should now be able to iterate over and test your component as you would in a regular Svelte application
+
+### Publishing to NPM
+
+0. Navigate to the /packages/svelte folder
+1. Use this terminal command to publish: npm publish --access public
+   1b. You may need to log in with NPM credentials if you haven't already done so
