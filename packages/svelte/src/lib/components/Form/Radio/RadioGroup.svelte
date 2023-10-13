@@ -25,9 +25,18 @@
   });
 
   import { createEventDispatcher } from 'svelte';
+  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
   const dispatch = createEventDispatcher();
 </script>
 
+{#if legend}
+  <h2>{legend}</h2>
+{/if}
+{#if description}
+  <Paragraph size={size}>
+    {description}
+  </Paragraph>
+{/if}
 <div class={inline ? 'radio-group-inline' : ''}>
   <slot />
 </div>
@@ -37,5 +46,9 @@
     display: flex;
     align-items: center;
     gap: 1.25rem;
+  }
+  h2 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 </style>

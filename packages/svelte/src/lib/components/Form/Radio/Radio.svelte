@@ -1,4 +1,5 @@
 <script>
+  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
   import { getContext } from 'svelte';
 
   /**
@@ -9,7 +10,7 @@
    * @prop {boolean} [readOnly=false] - Makes the field read-only.
    * @prop {string} [value] - Value of the input field.
    * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
-   * @prop {string} [id] - Override internal id.
+
    * @prop {boolean} [checked] - Override internal id.
    */
 
@@ -17,8 +18,7 @@
   export let disabled = false;
   export let readOnly = false;
   export let value;
-  export let size = 'medium';
-  export let id = '';
+  export let size = 'large';
   export let checked = false;
 
   const radioGroup = getContext('radioGroup');
@@ -48,10 +48,29 @@
   let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
     readOnly ? 'readonly' : ''
   } ${$$props.class || ''}`;
+
+  let iconSizeClass;
+  switch (size) {
+    case 'xsmall':
+      iconSizeClass = 'icon-xsmall';
+      break;
+    case 'small':
+      iconSizeClass = 'icon-small';
+    break;
+    case 'medium':
+      iconSizeClass = 'icon-medium';
+      break;
+    case 'large':
+      iconSizeClass = 'icon-large';
+    break;
+    default:
+      iconSizeClass = 'icon-medium'; // Default to medium if no recognized size is provided.
+}
 </script>
 
+<div class = {formFieldClasses}>
 <div
-  class={formFieldClasses}
+  class="container"
   on:click={toggle}
   on:keydown={handleKeydown}
   tabindex="0"
@@ -61,6 +80,7 @@
   aria-labelledby={description}
 >
   <svg
+    class="icon {iconSizeClass}"
     width="22"
     height="22"
     viewBox="0 0 22 22"
@@ -72,7 +92,7 @@
       class="box"
       name="circle"
       cx="11"
-      cy="11"
+      cy="11" 
       r="10"
       fill="white"
       stroke="#00315D"
@@ -90,28 +110,49 @@
     {/if}
   </svg>
   {#if description}
-    <span>{description}</span>
+    <Paragraph as="span" size={size}>{description}</Paragraph>
   {/if}
+</div>
 </div>
 
 <style lang="scss">
   .container {
+    display: flex;
+    align-items: start;
     position: relative;
     min-width: 44px;
-    min-height: 44px;
-  }
-
-  .spacing {
-    padding-left: calc(var(--fds-spacing-6) + 17px);
+    min-height: 22px;
+    gap: 5px;
   }
 
   .icon {
     grid-area: input;
     pointer-events: none;
-    height: 1.75em;
-    width: 1.75em;
-    margin: auto;
     overflow: visible;
+  }
+  .icon-xsmall {
+    height: 0.7rem;
+    width: 0.7em;
+    margin-top: 0.3rem;
+  }
+  .icon-small {
+    height: 0.9rem;
+    width: 0.9rem;
+    margin-top: 0.25rem;
+  }
+  .icon-medium {
+    height: 1.1rem;
+    width: 1.1rem;
+    margin-top: 0.3rem;
+  }
+  .icon-large {
+    height: 1.3rem;
+    width: 1.3rem;
+    margin-top: 0.3rem;
+  }
+  
+  .spacing {
+    padding-left: calc(var(--fds-spacing-6) + 17px);
   }
 
   .label {
