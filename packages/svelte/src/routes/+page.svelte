@@ -93,7 +93,9 @@
 <RadioGroup
   bind:value={selectedValue}
   on:change={handleGroupChange}
-  inline={true}
+  inline={false}
+  legend="Hello World"
+  description="Select an option"
 >
   <Radio
     value="option1"
@@ -101,10 +103,10 @@
   />
   <Radio
     value="option2"
-    description="Option 2"
+    description="Litt kortere tekst, men fortsatt ganske lang tekst."
   />
   <Radio
     value="option3"
-    description="Option 3"
+    description="Veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst"
   />
 </RadioGroup>
