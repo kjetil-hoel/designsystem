@@ -1,6 +1,7 @@
 <script>
   import { writable } from 'svelte/store';
-  import { setContext } from 'svelte';
+  import { setContext, createEventDispatcher } from 'svelte';
+  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
 
   export let legend = '';
   export let description = '';
@@ -17,15 +18,16 @@
   const selectedValue = writable(value);
 
   setContext('radioGroup', {
+    readOnly,
+    disabled,
+    size,
     selectedValue,
     setCheckedValue: (newValue) => {
       selectedValue.set(newValue);
       dispatch('change', newValue);
     },
   });
-
-  import { createEventDispatcher } from 'svelte';
-  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
+  
   const dispatch = createEventDispatcher();
 </script>
 
@@ -44,11 +46,11 @@
 <style>
   .radio-group-inline {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.25rem;
   }
   h2 {
     margin-top: 0.5rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0;
   }
 </style>

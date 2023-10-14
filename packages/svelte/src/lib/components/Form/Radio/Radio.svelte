@@ -18,8 +18,10 @@
   export let disabled = false;
   export let readOnly = false;
   export let value;
-  export let size = 'large';
+  export let size = 'medium';
   export let checked = false;
+  export let label = '';
+  export let hideLabel = false;
 
   const radioGroup = getContext('radioGroup');
 
@@ -27,6 +29,18 @@
     radioGroup.selectedValue.subscribe((selected) => {
       checked = selected === value;
     });
+  }
+
+  if(radioGroup && radioGroup.size){
+    size = radioGroup.size;
+  }
+
+  if(radioGroup && radioGroup.disabled){
+    disabled = radioGroup.disabled;
+  }
+
+  if(radioGroup && radioGroup.readOnly){
+    readOnly = radioGroup.readOnly
   }
 
   function toggle() {
@@ -48,8 +62,12 @@
   let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
     readOnly ? 'readonly' : ''
   } ${$$props.class || ''}`;
+  let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''} 
+                            ${readOnly ? 'readonly' : ''} 
+                            ${disabled ? 'disabled' : ''}`;
+  let descriptionClasses = `description ${hideLabel ? 'visually-hidden' : ''}`;
 
-  let iconSizeClass;
+  let iconSizeClass; // Should probably get these from design token?
   switch (size) {
     case 'xsmall':
       iconSizeClass = 'icon-xsmall';
@@ -64,55 +82,70 @@
       iconSizeClass = 'icon-large';
     break;
     default:
-      iconSizeClass = 'icon-medium'; // Default to medium if no recognized size is provided.
+      iconSizeClass = 'icon-medium';
 }
 </script>
 
 <div class = {formFieldClasses}>
-<div
-  class="container"
-  on:click={toggle}
-  on:keydown={handleKeydown}
-  tabindex="0"
-  role="radio"
-  aria-checked={checked}
-  aria-label="Select an option"
-  aria-labelledby={description}
->
-  <svg
-    class="icon {iconSizeClass}"
-    width="22"
-    height="22"
-    viewBox="0 0 22 22"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
+  <div
+    class="container"
+    on:click={toggle}
+    on:keydown={handleKeydown}
+    tabindex="0"
+    role="radio"
+    aria-checked={checked}
+    aria-label="Select an option"
+    aria-labelledby={description}
   >
-    <circle
-      class="box"
-      name="circle"
-      cx="11"
-      cy="11" 
-      r="10"
-      fill="white"
-      stroke="#00315D"
-      stroke-width="2"
-    />
-    {#if checked}
+    <svg
+      class="icon {iconSizeClass}"
+      width="22"
+      height="22"
+      viewBox="0 0 22 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
       <circle
-        class="checked"
-        name="checked"
+        class="box"
+        name="circle"
         cx="11"
-        cy="11"
-        r="4.88889"
-        fill="#0062BA"
+        cy="11" 
+        r="10"
+        fill="white"
+        stroke="#00315D"
+        stroke-width="2"
       />
+      {#if checked}
+        <circle
+          class="checked"
+          name="checked"
+          cx="11"
+          cy="11"
+          r="4.88889"
+          fill="#0062BA"
+        />
+      {/if}
+    </svg>
+    {#if label}
+      <label
+        for="input-field"
+        class={labelClasses}
+      >
+        {#if readOnly}
+          <!-- Replace the following span with padlock icon component -->
+          <span
+            aria-hidden
+            class="padlock-icon">🔒</span
+          >
+        {/if}
+        <span>{label}</span>
+      </label>
     {/if}
-  </svg>
-  {#if description}
-    <Paragraph as="span" size={size}>{description}</Paragraph>
-  {/if}
-</div>
+    {#if description}
+        <Paragraph as="span" size={size} class={descriptionClasses}>{description}</Paragraph>
+    {/if}
+  </div>
 </div>
 
 <style lang="scss">
@@ -130,6 +163,7 @@
     pointer-events: none;
     overflow: visible;
   }
+  
   .icon-xsmall {
     height: 0.7rem;
     width: 0.7em;
@@ -148,7 +182,7 @@
   .icon-large {
     height: 1.3rem;
     width: 1.3rem;
-    margin-top: 0.3rem;
+    margin-top: 0.35rem;
   }
   
   .spacing {
