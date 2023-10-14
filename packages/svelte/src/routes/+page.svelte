@@ -62,22 +62,22 @@
   bind:value={selectedValue}
   on:change={handleGroupChange}
   inline={false}
-  legend="Hello World"
-  description="Select an option"
+  legend="RadioGroup legend"
+  description="RadioGroup description"
   size='medium'
   readOnly={false}
   disabled={false}
 >
   <Radio
     value="option1"
-    description="Option 1"
+    description="Lorem ipsum."
   />
   <Radio
     value="option2"
-    description="Litt kortere tekst, men fortsatt ganske lang tekst."
+    description="Lorem ipsum dolor sit amet."
   />
   <Radio
     value="option3"
-    description="Veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst, veldig lang tekst"
+    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   />
 </RadioGroup>
