@@ -96,6 +96,9 @@
   inline={false}
   legend="Hello World"
   description="Select an option"
+  size='medium'
+  readOnly={false}
+  disabled={false}
 >
   <Radio
     value="option1"
