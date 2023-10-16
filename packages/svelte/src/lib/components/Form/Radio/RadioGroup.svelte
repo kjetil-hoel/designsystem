@@ -1,6 +1,22 @@
 <script>
   import { writable } from 'svelte/store';
-  import { setContext, createEventDispatcher } from 'svelte';
+  import { setContext, createEventDispatcher, onMount } from 'svelte';
+
+  /**
+   * RadioGroup
+   *
+   * @prop {string} [legend] - The legend of the fieldset.
+   * @prop {string} [description] - A description of the fieldset. This will appear below the legend.
+   * @prop {boolean} [readOnly=false] - Toggle readOnly on fieldset context.
+   * @prop {boolean} [disabled=false] - Toggle disabled all input fields within the fieldset.
+   * @prop {string} [error] - If set, this will diplay an error message at the bottom of the fieldset.
+   * @prop {string} [value] - Controlled state for Radio.
+   * @prop {string} [defaultValue] - Default checked Radio
+   * @prop {boolean} [required=false] - Toggle if collection of Radio are required. Note: Not fully implemented for Svelte.
+   * @prop {boolean} [inline=false] - Orientation of Radio components.
+   * @prop {string} [size='medium'] - Changes field size and paddings.
+   * @prop {boolean} [hideLegend=false] - Visually hide legend and description (still available for screen readers).
+   */
 
   export let legend = '';
   export let description = '';
@@ -16,59 +32,103 @@
 
   const selectedValue = writable(value);
 
+  onMount(() => {
+    selectedValue.set(defaultValue);
+  });
+
+  let fontSizeClass;
+  switch (size) {
+    case 'xsmall':
+      fontSizeClass = 'font-xsmall';
+      break;
+    case 'small':
+      fontSizeClass = 'font-small';
+      break;
+    case 'medium':
+      fontSizeClass = 'font-medium';
+      break;
+    default:
+      fontSizeClass = 'font-medium';
+      break;
+  }
+
+  let radioGroupClasses = `radio-group`;
+  let legendClasses = `legend ${fontSizeClass}`;
+  let descriptionClasses = `description ${fontSizeClass}`;
+  let errorClasses = `error ${fontSizeClass}`;
+
   setContext('radioGroup', {
     readOnly,
     disabled,
     size,
+    error,
     selectedValue,
-    setCheckedValue: (newValue) => {
-      selectedValue.set(newValue);
-      dispatch('change', newValue);
+    required,
+    setCheckedValue: (changedValue) => {
+      selectedValue.set(changedValue);
+      dispatch('change', changedValue);
     },
   });
-  
+
   const dispatch = createEventDispatcher();
 </script>
 
-<div class="radio-group">
-  {#if legend}
-    <label for="legend">
+<div class={radioGroupClasses}>
+  {#if legend && !hideLegend}
+    {#if readOnly}
+      <span
+        aria-hidden
+        class="padlock-icon">🔒</span
+      >
+    {/if}
+    <label
+      for="legend"
+      class={legendClasses}
+    >
       {legend}
     </label>
   {/if}
   {#if description}
-    <p
-      id="description"
-    >
+    <p class={descriptionClasses}>
       {description}
     </p>
   {/if}
   <div class={inline ? 'radio-group-inline' : ''}>
     <slot />
   </div>
+  {#if error}
+    <p class={errorClasses}>{error}</p>
+  {/if}
 </div>
 
 <style>
-  .radio-group{
-    margin-top: 1rem;
-  }
   .radio-group-inline {
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
   }
 
-  label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #1E2B3C;
+  .font-xsmall {
+    font-size: 0.8125rem;
+  }
+  .font-small {
+    font-size: 0.9375rem;
+  }
+  .font-medium {
+    font-size: 1.125rem;
   }
 
+  .error {
+    color: var(--fds-semantic-border-danger-default);
+  }
+
+  label {
+    font-weight: 500;
+  }
   p {
-    font-size: 18px;
     margin-top: 0.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     font-weight: 400;
-    color: #4B5563;
+    color: var(--fds-semantic-text-neutral-subtle);
   }
 </style>
