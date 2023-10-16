@@ -56,27 +56,32 @@
 
   let iconSizeClass;
   let fontSizeClass;
+  let spacingClass;
   switch (size) {
     case 'xsmall':
       iconSizeClass = 'icon-xsmall';
       fontSizeClass = 'font-xsmall';
+      spacingClass = 'spacing-xsmall';
       break;
     case 'small':
       iconSizeClass = 'icon-small';
       fontSizeClass = 'font-small';
+      spacingClass = 'spacing-small';
       break;
     case 'medium':
       iconSizeClass = 'icon-medium';
       fontSizeClass = 'font-medium';
+      spacingClass = 'spacing-medium';
       break;
     default:
       iconSizeClass = 'icon-medium';
       fontSizeClass = 'font-medium';
+      spacingClass = 'spacing-medium';
       break;
   }
-  let containerClasses = `container spacing ${disabled ? 'disabled' : ''} ${
-    radioGroup.error ? 'error' : ''
-  } ${readOnly ? 'readonly' : ''}`;
+  let containerClasses = `container ${spacingClass} ${
+    disabled ? 'disabled' : ''
+  } ${radioGroup.error ? 'error' : ''} ${readOnly ? 'readonly' : ''}`;
   let labelClasses = `label ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
   let descriptionClasses = `description ${fontSizeClass}`;
@@ -151,9 +156,17 @@
     position: relative;
     min-width: 2.75rem;
     min-height: 2.75rem;
+    padding-left: 0;
+    margin-left: 0;
   }
 
-  .spacing {
+  .spacing-xsmall {
+    padding-left: calc(var(--fds-spacing-6));
+  }
+  .spacing-small {
+    padding-left: calc(var(--fds-spacing-6) + 0.6rem);
+  }
+  .spacing-medium {
     padding-left: calc(var(--fds-spacing-6) + 1.0625rem);
   }
 
@@ -163,6 +176,7 @@
     height: 1.75rem;
     width: 1.75rem;
     margin: auto;
+    margin-left: 0;
     overflow: visible;
   }
 
@@ -198,6 +212,8 @@
     grid: [input] 1fr / [input] 1fr;
     gap: var(--fds-spacing-2);
     grid-auto-flow: column;
+    left: 0;
+    justify-items: left;
   }
 
   .radio,
