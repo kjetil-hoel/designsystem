@@ -11,8 +11,7 @@
 
   let textfieldValue = '';
 
-  let selectedValue = 'option1';
-
+  let selectedValue;
   function handleGroupChange(event) {
     selectedValue = event.detail;
   }
@@ -64,26 +63,41 @@
   inline={false}
   legend="RadioGroup legend"
   description="RadioGroup description"
-  size='medium'
+  size="medium"
+  defaultValue="option1"
   readOnly={false}
   disabled={false}
+  error="Lorem ipsum error."
 >
   <Radio
-    value="value1"
-    description="Lorem ipsum description."
+    value="option1"
+    description="Lorem ipsum description option1."
   >
     Lorem ipsum.
   </Radio>
   <Radio
-    value="value2"
+    value="option2"
+    description="Lorem ipsum description option2."
+  >
+    Lorem ipsum.
+  </Radio>
+  <Radio
+    readOnly={true}
+    value="option3"
     description="Lorem ipsum dolor sit amet description."
   >
     Lorem ipsum dolor sit amet.
   </Radio>
   <Radio
-    value="value3"
+    disabled={true}
+    value="option4"
     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum description."
   >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   </Radio>
 </RadioGroup>

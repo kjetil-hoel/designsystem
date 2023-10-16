@@ -1,17 +1,16 @@
 <script>
-  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
   import { getContext } from 'svelte';
 
   /**
    * Radio
    *
-   * @prop {string} [description] - Description for the Radio.
-   * @prop {boolean} [disabled=false] - Disables the field.
-   * @prop {boolean} [readOnly=false] - Makes the field read-only.
-   * @prop {string} [value] - Value of the input field.
-   * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
-
-   * @prop {boolean} [checked] - Override internal id.
+   * @prop {string} [description] - Description for field.
+   * @prop {boolean} [disabled=false] - Disables element.
+   * @prop {boolean} [readOnly=false] - Toggle readOnly.
+   * @prop {string} [value] - Value of the input element.
+   * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium'.
+   * @prop {boolean} [checked] - Determines if the radio button is checked or not.
+   * @prop {boolean} [hideLabel] - Hides label and description.
    */
 
   export let description = '';
@@ -30,16 +29,16 @@
     });
   }
 
-  if(radioGroup && radioGroup.size){
+  if (radioGroup && radioGroup.size) {
     size = radioGroup.size;
   }
 
-  if(radioGroup && radioGroup.disabled){
+  if (radioGroup && radioGroup.disabled) {
     disabled = radioGroup.disabled;
   }
 
-  if(radioGroup && radioGroup.readOnly){
-    readOnly = radioGroup.readOnly
+  if (radioGroup && radioGroup.readOnly) {
+    readOnly = radioGroup.readOnly;
   }
 
   function toggle() {
@@ -67,36 +66,42 @@
     case 'small':
       iconSizeClass = 'icon-small';
       fontSizeClass = 'font-small';
-    break;
+      break;
     case 'medium':
       iconSizeClass = 'icon-medium';
       fontSizeClass = 'font-medium';
       break;
     default:
       iconSizeClass = 'icon-medium';
+      fontSizeClass = 'font-medium';
       break;
-}
-
-  let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
-    readOnly ? 'readonly' : ''
-  } ${$$props.class || ''}`;
+  }
+  let containerClasses = `container spacing ${disabled ? 'disabled' : ''} ${
+    radioGroup.error ? 'error' : ''
+  } ${readOnly ? 'readonly' : ''}`;
   let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''} 
                             ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
-  let descriptionClasses = `description ${hideLabel ? 'visually-hidden' : ''} ${fontSizeClass}`;
+  let descriptionClasses = `description ${
+    hideLabel ? 'visually-hidden' : ''
+  } ${fontSizeClass}`;
 </script>
 
-<div class = {formFieldClasses}>
-  <div
-    class="container"
-    on:click={toggle}
-    on:keydown={handleKeydown}
-    tabindex="0"
-    role="radio"
-    aria-checked={checked}
-    aria-label="Select an option"
-    aria-labelledby={description}
-  >
+<div
+  class={`${containerClasses} ${fontSizeClass}`}
+  on:click={toggle}
+  on:keydown={handleKeydown}
+  tabindex="-1"
+  role="radio"
+  aria-checked={checked}
+  aria-label="Select an option"
+  aria-labelledby={description}
+>
+  <span class={`control radio`}>
+    <input
+      class="input"
+      type="radio"
+    />
     <svg
       class="icon {iconSizeClass}"
       width="22"
@@ -110,7 +115,7 @@
         class="box"
         name="circle"
         cx="11"
-        cy="11" 
+        cy="11"
         r="10"
         fill="white"
         stroke="#00315D"
@@ -127,84 +132,48 @@
         />
       {/if}
     </svg>
-    <div class="textual-content">
-        <label
-          for="label"
-          class={labelClasses}
-        >
-          {#if readOnly}
-            <span
-              aria-hidden
-              class="padlock-icon">🔒</span
-            >
-          {/if}
-          <span class={fontSizeClass}>
-            <slot/>
-          </span>
-        </label>
-      {#if description}
-        <p
-          id="description"
-          class={descriptionClasses}
-        >
-          {description}
-        </p>
-      {/if}
-    </div>
-  </div>
+  </span>
+  <label
+    for="label"
+    class={labelClasses}
+  >
+    <span class={fontSizeClass}>
+      <slot />
+    </span>
+  </label>
+  {#if description}
+    <p
+      id="description"
+      class={descriptionClasses}
+    >
+      {description}
+    </p>
+  {/if}
 </div>
 
 <style lang="scss">
   .container {
-    display: flex;
-    align-items: start;
-    gap: 5px;
+    position: relative;
     min-width: 44px;
     min-height: 44px;
-  }
-
-  .textual-content{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 0.25rem;
-  }
-
-  .icon {
-    grid-area: input;
-    pointer-events: none;
-    overflow: visible;
-  }
-  
-  .icon-xsmall {
-    height: 1.375rem;
-    width: 1.375em;
-  }
-  .icon-small {
-    height: 1.6875rem;
-    width: 1.6875rem;
-  }
-  .icon-medium {
-    height: 2rem;
-    width: 2rem;
-  }
-
-  .font-xsmall {
-    font-size: 13px;
-  }
-  .font-small {
-    font-size: 15px;
-  }
-  .font-medium {
-    font-size: 18px;
   }
 
   .spacing {
     padding-left: calc(var(--fds-spacing-6) + 17px);
   }
 
+  .icon {
+    grid-area: input;
+    pointer-events: none;
+    height: 1.75em;
+    width: 1.75em;
+    margin: auto;
+    overflow: visible;
+  }
+
   .label {
     padding-left: 3px;
+    min-height: 44px;
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
@@ -212,10 +181,11 @@
     align-items: center;
     cursor: pointer;
   }
+
   .description {
     padding-left: 3px;
     margin-top: calc(var(--fds-spacing-2) * -1);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     color: var(--fds-semantic-text-neutral-subtle);
   }
 
@@ -319,22 +289,45 @@
 
   /* Only use hover for non-touch devices to prevent sticky-hovering */
   @media (hover: hover) and (pointer: fine) {
-    .container:not(.disabled, .readonly) > .textual-content .control:hover,
-    .container:not(.disabled, .readonly):has(.textual-content .label:hover) > .control {
+    .container:not(.disabled, .readonly) > .control:hover,
+    .container:not(.disabled, .readonly):has(.label:hover) > .control {
       background: var(--fds-semantic-surface-info-subtle-hover);
     }
 
-    .container:not(.disabled, .readonly) > .textual-content .label:hover,
-    .container:not(.disabled, .readonly) > .control:hover ~ .textual-content .label {
+    .container:not(.disabled, .readonly) > .label:hover,
+    .container:not(.disabled, .readonly) > .control:hover ~ .label {
       color: var(--fds-semantic-border-input-hover);
     }
 
     .container:not(.disabled, .readonly) > .control:hover > .icon > .box,
-    .container:not(.disabled, .readonly):has(.textual-content .label:hover)
+    .container:not(.disabled, .readonly):has(.label:hover)
       > .control
       > .icon
       > .box {
       stroke: var(--fds-semantic-border-input-hover);
+    }
+
+    .icon-xsmall {
+      height: 1.375rem;
+      width: 1.375em;
+    }
+    .icon-small {
+      height: 1.6875rem;
+      width: 1.6875rem;
+    }
+    .icon-medium {
+      height: 2rem;
+      width: 2rem;
+    }
+
+    .font-xsmall {
+      font-size: 0.8125rem;
+    }
+    .font-small {
+      font-size: 0.9375rem;
+    }
+    .font-medium {
+      font-size: 1.125rem;
     }
   }
 </style>
