@@ -20,7 +20,6 @@
   export let value;
   export let size = 'medium';
   export let checked = false;
-  export let label = '';
   export let hideLabel = false;
 
   const radioGroup = getContext('radioGroup');
@@ -58,32 +57,33 @@
     }
   }
 
-  // Computed class names for the component elements
+  let iconSizeClass;
+  let fontSizeClass;
+  switch (size) {
+    case 'xsmall':
+      iconSizeClass = 'icon-xsmall';
+      fontSizeClass = 'font-xsmall';
+      break;
+    case 'small':
+      iconSizeClass = 'icon-small';
+      fontSizeClass = 'font-small';
+    break;
+    case 'medium':
+      iconSizeClass = 'icon-medium';
+      fontSizeClass = 'font-medium';
+      break;
+    default:
+      iconSizeClass = 'icon-medium';
+      break;
+}
+
   let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
     readOnly ? 'readonly' : ''
   } ${$$props.class || ''}`;
   let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''} 
                             ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
-  let descriptionClasses = `description ${hideLabel ? 'visually-hidden' : ''}`;
-
-  let iconSizeClass; // Should probably get these from design token?
-  switch (size) {
-    case 'xsmall':
-      iconSizeClass = 'icon-xsmall';
-      break;
-    case 'small':
-      iconSizeClass = 'icon-small';
-    break;
-    case 'medium':
-      iconSizeClass = 'icon-medium';
-      break;
-    case 'large':
-      iconSizeClass = 'icon-large';
-    break;
-    default:
-      iconSizeClass = 'icon-medium';
-}
+  let descriptionClasses = `description ${hideLabel ? 'visually-hidden' : ''} ${fontSizeClass}`;
 </script>
 
 <div class = {formFieldClasses}>
@@ -127,24 +127,30 @@
         />
       {/if}
     </svg>
-    {#if label}
-      <label
-        for="input-field"
-        class={labelClasses}
-      >
-        {#if readOnly}
-          <!-- Replace the following span with padlock icon component -->
-          <span
-            aria-hidden
-            class="padlock-icon">🔒</span
-          >
-        {/if}
-        <span>{label}</span>
-      </label>
-    {/if}
-    {#if description}
-        <Paragraph as="span" size={size} class={descriptionClasses}>{description}</Paragraph>
-    {/if}
+    <div class="textual-content">
+        <label
+          for="label"
+          class={labelClasses}
+        >
+          {#if readOnly}
+            <span
+              aria-hidden
+              class="padlock-icon">🔒</span
+            >
+          {/if}
+          <span class={fontSizeClass}>
+            <slot/>
+          </span>
+        </label>
+      {#if description}
+        <p
+          id="description"
+          class={descriptionClasses}
+        >
+          {description}
+        </p>
+      {/if}
+    </div>
   </div>
 </div>
 
@@ -152,10 +158,16 @@
   .container {
     display: flex;
     align-items: start;
-    position: relative;
-    min-width: 44px;
-    min-height: 22px;
     gap: 5px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .textual-content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0.25rem;
   }
 
   .icon {
@@ -165,33 +177,34 @@
   }
   
   .icon-xsmall {
-    height: 0.7rem;
-    width: 0.7em;
-    margin-top: 0.3rem;
+    height: 1.375rem;
+    width: 1.375em;
   }
   .icon-small {
-    height: 0.9rem;
-    width: 0.9rem;
-    margin-top: 0.25rem;
+    height: 1.6875rem;
+    width: 1.6875rem;
   }
   .icon-medium {
-    height: 1.1rem;
-    width: 1.1rem;
-    margin-top: 0.3rem;
+    height: 2rem;
+    width: 2rem;
   }
-  .icon-large {
-    height: 1.3rem;
-    width: 1.3rem;
-    margin-top: 0.35rem;
+
+  .font-xsmall {
+    font-size: 13px;
   }
-  
+  .font-small {
+    font-size: 15px;
+  }
+  .font-medium {
+    font-size: 18px;
+  }
+
   .spacing {
     padding-left: calc(var(--fds-spacing-6) + 17px);
   }
 
   .label {
     padding-left: 3px;
-    min-height: 44px;
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
@@ -199,10 +212,10 @@
     align-items: center;
     cursor: pointer;
   }
-
   .description {
     padding-left: 3px;
     margin-top: calc(var(--fds-spacing-2) * -1);
+    margin-bottom: 0.5rem;
     color: var(--fds-semantic-text-neutral-subtle);
   }
 
@@ -306,18 +319,18 @@
 
   /* Only use hover for non-touch devices to prevent sticky-hovering */
   @media (hover: hover) and (pointer: fine) {
-    .container:not(.disabled, .readonly) > .control:hover,
-    .container:not(.disabled, .readonly):has(.label:hover) > .control {
+    .container:not(.disabled, .readonly) > .textual-content .control:hover,
+    .container:not(.disabled, .readonly):has(.textual-content .label:hover) > .control {
       background: var(--fds-semantic-surface-info-subtle-hover);
     }
 
-    .container:not(.disabled, .readonly) > .label:hover,
-    .container:not(.disabled, .readonly) > .control:hover ~ .label {
+    .container:not(.disabled, .readonly) > .textual-content .label:hover,
+    .container:not(.disabled, .readonly) > .control:hover ~ .textual-content .label {
       color: var(--fds-semantic-border-input-hover);
     }
 
     .container:not(.disabled, .readonly) > .control:hover > .icon > .box,
-    .container:not(.disabled, .readonly):has(.label:hover)
+    .container:not(.disabled, .readonly):has(.textual-content .label:hover)
       > .control
       > .icon
       > .box {

@@ -23,7 +23,7 @@
 
   let textfieldValue = '';
 
-  let selectedValue = 'option2';
+  let selectedValue = 'option1';
 
   function handleGroupChange(event) {
     selectedValue = event.detail;
@@ -101,15 +101,21 @@
   disabled={false}
 >
   <Radio
-    value="option1"
-    description="Lorem ipsum."
-  />
+    value="value1"
+    description="Lorem ipsum description."
+  >
+    Lorem ipsum.
+  </Radio>
   <Radio
-    value="option2"
-    description="Lorem ipsum dolor sit amet."
-  />
+    value="value2"
+    description="Lorem ipsum dolor sit amet description."
+  >
+    Lorem ipsum dolor sit amet.
+  </Radio>
   <Radio
-    value="option3"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  />
+    value="value3"
+    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum description."
+  >
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Radio>
 </RadioGroup>

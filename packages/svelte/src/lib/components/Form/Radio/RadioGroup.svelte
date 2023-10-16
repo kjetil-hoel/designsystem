@@ -1,7 +1,6 @@
 <script>
   import { writable } from 'svelte/store';
   import { setContext, createEventDispatcher } from 'svelte';
-  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
 
   export let legend = '';
   export let description = '';
@@ -31,26 +30,45 @@
   const dispatch = createEventDispatcher();
 </script>
 
-{#if legend}
-  <h2>{legend}</h2>
-{/if}
-{#if description}
-  <Paragraph size={size}>
-    {description}
-  </Paragraph>
-{/if}
-<div class={inline ? 'radio-group-inline' : ''}>
-  <slot />
+<div class="radio-group">
+  {#if legend}
+    <label for="legend">
+      {legend}
+    </label>
+  {/if}
+  {#if description}
+    <p
+      id="description"
+    >
+      {description}
+    </p>
+  {/if}
+  <div class={inline ? 'radio-group-inline' : ''}>
+    <slot />
+  </div>
 </div>
 
 <style>
+  .radio-group{
+    margin-top: 1rem;
+  }
   .radio-group-inline {
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
   }
-  h2 {
-    margin-top: 0.5rem;
-    margin-bottom: 0;
+
+  label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1E2B3C;
+  }
+
+  p {
+    font-size: 18px;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    color: #4B5563;
   }
 </style>
