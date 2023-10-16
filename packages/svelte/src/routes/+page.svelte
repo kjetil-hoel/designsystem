@@ -100,6 +100,7 @@
   readOnly={false}
   disabled={false}
   error="Lorem ipsum error."
+  hideLegend={false}
 >
   <Radio
     value="option1"
