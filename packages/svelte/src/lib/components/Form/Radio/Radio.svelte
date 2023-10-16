@@ -4,12 +4,12 @@
   /**
    * Radio
    *
-   * @prop {string} [description] - Description for field.
+   * @prop {string} [description=''] - Description for field.
    * @prop {boolean} [disabled=false] - Disables element.
    * @prop {boolean} [readOnly=false] - Toggle readOnly.
    * @prop {string} [value] - Value of the input element.
    * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium'.
-   * @prop {boolean} [checked] - Determines if the radio button is checked or not.
+   * @prop {boolean} [checked=false] - Determines if the radio button is checked or not.
    */
 
   export let description = '';
@@ -149,26 +149,26 @@
 <style lang="scss">
   .container {
     position: relative;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
   }
 
   .spacing {
-    padding-left: calc(var(--fds-spacing-6) + 17px);
+    padding-left: calc(var(--fds-spacing-6) + 1.0625rem);
   }
 
   .icon {
     grid-area: input;
     pointer-events: none;
-    height: 1.75em;
-    width: 1.75em;
+    height: 1.75rem;
+    width: 1.75rem;
     margin: auto;
     overflow: visible;
   }
 
   .label {
-    padding-left: 3px;
-    min-height: 44px;
+    padding-left: 0.1875rem;
+    min-height: 2.75rem;
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
@@ -178,7 +178,7 @@
   }
 
   .description {
-    padding-left: 3px;
+    padding-left: 0.1875rem;
     margin-top: calc(var(--fds-spacing-2) * -1);
     margin-bottom: 0.25rem;
     color: var(--fds-semantic-text-neutral-subtle);
@@ -187,13 +187,13 @@
   .control {
     --fds-inner-focus-border-color: var(--fds-semantic-border-focus-boxshadow);
     --fds-outer-focus-border-color: var(--fds-semantic-border-focus-outline);
-    --fds-focus-border-width: 3px;
+    --fds-focus-border-width: 0.1875rem;
 
     position: absolute;
     left: 0;
     top: 0;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
     display: inline-grid;
     grid: [input] 1fr / [input] 1fr;
     gap: var(--fds-spacing-2);

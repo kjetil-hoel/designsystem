@@ -57,6 +57,8 @@
 <Tag size="small">Tag small</Tag>
 <Tag size="medium">Tag medium</Tag>
 
+<p />
+
 <RadioGroup
   bind:value={selectedValue}
   on:change={handleGroupChange}
