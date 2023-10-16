@@ -53,8 +53,12 @@
   }
 
   let radioGroupClasses = `radio-group`;
-  let legendClasses = `legend ${fontSizeClass}`;
-  let descriptionClasses = `description ${fontSizeClass}`;
+  let legendClasses = `legend ${fontSizeClass} ${
+    hideLegend ? 'visually-hidden' : ''
+  }`;
+  let descriptionClasses = `description ${fontSizeClass}  ${
+    hideLegend ? 'visually-hidden' : ''
+  }`;
   let errorClasses = `error ${fontSizeClass}`;
 
   setContext('radioGroup', {
@@ -74,7 +78,7 @@
 </script>
 
 <div class={radioGroupClasses}>
-  {#if legend && !hideLegend}
+  {#if legend}
     {#if readOnly}
       <span
         aria-hidden
@@ -93,6 +97,7 @@
       {description}
     </p>
   {/if}
+
   <div class={inline ? 'radio-group-inline' : ''}>
     <slot />
   </div>
@@ -130,5 +135,17 @@
     margin-bottom: 0.25rem;
     font-weight: 400;
     color: var(--fds-semantic-text-neutral-subtle);
+  }
+
+  .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 </style>

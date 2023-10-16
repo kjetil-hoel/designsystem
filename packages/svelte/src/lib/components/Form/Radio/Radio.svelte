@@ -10,7 +10,6 @@
    * @prop {string} [value] - Value of the input element.
    * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium'.
    * @prop {boolean} [checked] - Determines if the radio button is checked or not.
-   * @prop {boolean} [hideLabel] - Hides label and description.
    */
 
   export let description = '';
@@ -19,7 +18,6 @@
   export let value;
   export let size = 'medium';
   export let checked = false;
-  export let hideLabel = false;
 
   const radioGroup = getContext('radioGroup');
 
@@ -79,12 +77,9 @@
   let containerClasses = `container spacing ${disabled ? 'disabled' : ''} ${
     radioGroup.error ? 'error' : ''
   } ${readOnly ? 'readonly' : ''}`;
-  let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''} 
-                            ${readOnly ? 'readonly' : ''} 
+  let labelClasses = `label ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
-  let descriptionClasses = `description ${
-    hideLabel ? 'visually-hidden' : ''
-  } ${fontSizeClass}`;
+  let descriptionClasses = `description ${fontSizeClass}`;
 </script>
 
 <div
