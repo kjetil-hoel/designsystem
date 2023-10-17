@@ -26,6 +26,8 @@
     "./Paragraph": "./dist/Typography/Paragraph/Paragraph.svelte",
     "./Tag": "./dist/Tag/Tag.svelte",
     "./Textfield": "./dist/Form/Textfield/Textfield.svelte",
+    "./Radio": "./dist/Form/Radio/Radio.svelte",
+    "./RadioGroup": "./dist/Form/Radio/RadioGroup.svelte",
     ".": {
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
