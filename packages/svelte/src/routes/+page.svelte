@@ -1,13 +1,25 @@
 <script>
-	import { writable } from 'svelte/store';
-	import Alert from '$lib/components/Alert/Alert.svelte';
-	import Button from '$lib/components/Button/Button.svelte';
-	import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
-	import Link from '$lib/components/Link/Link.svelte';
-	import List from '$lib/components/List/List.svelte';
-	import Tag from '$lib/components/Tag/Tag.svelte';
-	import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
+  import { writable } from 'svelte/store';
+  import Alert from '$lib/components/Alert/Alert.svelte';
+  import Button from '$lib/components/Button/Button.svelte';
+  import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
+  import Link from '$lib/components/Link/Link.svelte';
+  import List from '$lib/components/List/List.svelte';
+  import Tag from '$lib/components/Tag/Tag.svelte';
+  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
+  import Modal from '$lib/components/Modal/Modal.svelte';
 	import { Accordion, AccordionContent, AccordionHeader, AccordionItem } from '$lib';
+  
+  let showModal = false;
+
+  function openModal(event) {
+    event.stopPropagation();
+    showModal = true;
+  }
+
+  function closeModal() {
+    showModal = false;
+  }
 
 	let textfieldValue = '';
 </script>
@@ -86,3 +98,10 @@
 		</AccordionContent>
 	</AccordionItem>
 </Accordion>
+
+<Button on:click={openModal}>Open Modal</Button>
+<Modal
+  show={showModal}
+  onClose={closeModal}
+/>
+
