@@ -147,6 +147,9 @@
 
   fieldset {
     border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
   }
 
   legend {
