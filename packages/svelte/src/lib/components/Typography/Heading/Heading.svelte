@@ -16,7 +16,7 @@
 {:else if Component === 'h2'}
 	<h2 class="{classes} {size} {spacing ? 'spacing' : ''}"><slot /></h2>
 {:else if Component === 'h3'}
-	<div class="{classes} {size} {spacing ? 'spacing' : ''}"><slot /></div>
+	<h3 class="{classes} {size} {spacing ? 'spacing' : ''}"><slot /></h3>
 {:else if Component === 'h4'}
 	<h4 class="{classes} {size} {spacing ? 'spacing' : ''}"><slot /></h4>
 {:else if Component === 'h5'}

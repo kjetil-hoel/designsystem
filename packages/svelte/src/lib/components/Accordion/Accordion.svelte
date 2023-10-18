@@ -1,12 +1,9 @@
 <script>
 	export let border = false;
 	export let color = 'neutral';
-	export let className = '';
-
-	$: classes = `accordion ${color} ${border ? 'border' : ''} ${className}`;
 </script>
 
-<div class={classes}>
+<div class={`accordion ${color} ${border ? 'border' : ''}`}>
 	<slot />
 </div>
 
@@ -46,66 +43,66 @@
 	}
 
 	.accordion.neutral,
-	.accordion.neutral > .item > .header > button {
+	:global(.accordion.neutral > .item > .header > button) {
 		background: var(--fdsc-accordion-header-bg-neutral);
 	}
 
 	.accordion.subtle,
-	.accordion.subtle > .item > .header > button {
+	:global(.accordion.subtle > .item > .header > button) {
 		background: var(--fdsc-accordion-header-bg-subtle);
 	}
 
 	.accordion.first,
-	.accordion.first > .item > .header > button {
+	:global(.accordion.first > .item > .header > button) {
 		background: var(--fdsc-accordion-header-bg-primary);
 	}
 
 	.accordion.second,
-	.accordion.second > .item > .header > button {
+	:global(.accordion.second > .item > .header > button) {
 		background: var(--fdsc-accordion-header-bg-secondary);
 	}
 
 	.accordion.third,
-	.accordion.third > .item > .header > button {
+	:global(.accordion.third > .item > .header > button) {
 		background: var(--fdsc-accordion-header-bg-tertiary);
 	}
 
-	.accordion.border > .item:first-child > .header > button {
+	:global(.accordion.border > .item:first-child > .header > button) {
 		border-top: 0;
 	}
 
-	.accordion.first > .item:not(:first-child) > .header > button,
-	.accordion.second > .item:not(:first-child) > .header > button,
-	.accordion.third > .item:not(:first-child) > .header > button {
+	:global(.accordion.first > .item:not(:first-child) > .header > button),
+	:global(.accordion.second > .item:not(:first-child) > .header > button),
+	:global(.accordion.third > .item:not(:first-child) > .header > button) {
 		border-top: 1px solid var(--fdsc-accordion-header-border-inverted);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.accordion.subtle > .item > .header > button:hover {
+		:global(.accordion.subtle > .item > .header > button:hover) {
 			background: var(--fdsc-accordion-header-bg-subtle-hover);
 		}
 
-		.accordion.first > .item > .header > button:hover {
+		:global(.accordion.first > .item > .header > button:hover) {
 			background: var(--fdsc-accordion-header-bg-primary-hover);
 		}
 
-		.accordion.second > .item > .header > button:hover {
+		:global(.accordion.second > .item > .header > button:hover) {
 			background: var(--fdsc-accordion-header-bg-secondary-hover);
 		}
 
-		.accordion.third > .item > .header > button:hover {
+		:global(.accordion.third > .item > .header > button:hover) {
 			background: var(--fdsc-accordion-header-bg-tertiary-hover);
 		}
 	}
 
-	.accordion.neutral > .item.open > .header > button,
-	.accordion.subtle > .item.open > .header > button {
+	:global(.accordion.neutral > .item.open > .header > button),
+	:global(.accordion.subtle > .item.open > .header > button) {
 		background-color: var(--fdsc-accordion-header-bg-neutral-active);
 	}
 
-	.accordion.first > .item.open > .header > button,
-	.accordion.second > .item.open > .header > button,
-	.accordion.third > .item.open > .header > button {
+	:global(.accordion.first > .item.open > .header > button),
+	:global(.accordion.second > .item.open > .header > button),
+	:global(.accordion.third > .item.open > .header > button) {
 		background-color: rgba(0 0 0 / 0.03);
 	}
 </style>

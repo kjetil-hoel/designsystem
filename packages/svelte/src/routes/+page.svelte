@@ -70,7 +70,7 @@
 
 <Accordion border={true} color="second">
 	<AccordionItem open={writable(true)}>
-		<AccordionHeader level={3}>
+		<AccordionHeader level={1}>
 			<svelte:fragment slot="header">
 				Hvem kan registrere seg i Frivillighetsregisteret?
 			</svelte:fragment>
@@ -84,7 +84,7 @@
 		</AccordionContent>
 	</AccordionItem>
 	<AccordionItem open={writable(false)}>
-		<AccordionHeader>
+		<AccordionHeader level={4}>
 			<svelte:fragment slot="header">
 				Hvordan går jeg fram for å registrere i Frivillighetsregisteret?
 			</svelte:fragment>

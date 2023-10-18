@@ -2,11 +2,8 @@
 	import { getContext } from 'svelte';
 	import ChevronUpIcon from '@navikt/aksel-icons/svg/ChevronUp.svg?raw';
 	import ChevronDownIcon from '@navikt/aksel-icons/svg/ChevronDown.svg?raw';
-	import Heading from '$lib/components/Typography/Heading/Heading.svelte';
-	import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
 
 	export let level = 1;
-	export let className = '';
 
 	let context = null;
 	let open = null;
@@ -19,9 +16,6 @@
 			console.error('<Accordion.Header> has to be used within an <Accordion.Item>');
 		}
 	}
-
-	$: classes = `header ${className}`;
-	$: buttonClasses = `focusable button ${classes}`;
 	const handleClick = () => {
 		if (context) {
 			context.toggleOpen();
@@ -29,10 +23,10 @@
 	};
 </script>
 
-<Heading size="xsmall" {level} className={classes}>
+<svelte:element this={level && `h${level}`} class="header heading xsmall">
 	<button
 		type="button"
-		class={buttonClasses}
+		class="button focusable"
 		on:click={handleClick}
 		aria-expanded={$open}
 		aria-controls={context.contentId}
@@ -44,16 +38,27 @@
 				{@html ChevronUpIcon}
 			{/if}
 		</div>
-		<Paragraph as="span" size="small">
+		<span class="paragraph small">
 			{#if $$slots.header}
 				<slot name="header" />
 			{/if}
-		</Paragraph>
+		</span>
 	</button>
-</Heading>
+</svelte:element>
 
 <style>
-	.button {
+	.header {
+		margin: 0;
+	}
+
+	.heading.xsmall {
+		--fdsc-bottom-spacing: var(--fds-spacing-2);
+
+		font: var(--fds-typography-heading-xsmall);
+		font-family: var(--fdsc-typography-font-family);
+	}
+
+	.header > button {
 		width: 100%;
 		display: flex;
 		justify-content: flex-start;
@@ -72,7 +77,7 @@
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.button:hover {
+		.header > button:hover {
 			color: var(--fdsc-accordion-header-color-hover);
 		}
 	}
@@ -93,5 +98,19 @@
 		outline: var(--fds-focus-border-width) solid var(--fds-outer-focus-border-color);
 		outline-offset: var(--fds-focus-border-width);
 		box-shadow: 0 0 0 var(--fds-focus-border-width) var(--fds-inner-focus-border-color);
+	}
+
+	.paragraph {
+		--fdsc-typography-font-family: inherit;
+		--fdsc-bottom-spacing: var(--fds-spacing-5);
+
+		color: var(--fds-semantic-text-neutral-default);
+		margin: 0;
+	}
+	.paragraph.small {
+		--fdsc-bottom-spacing: var(--fds-spacing-4);
+
+		font: var(--fds-typography-paragraph-small);
+		font-family: var(--fdsc-typography-font-family);
 	}
 </style>

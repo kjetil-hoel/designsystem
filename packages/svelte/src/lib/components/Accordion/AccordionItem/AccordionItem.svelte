@@ -5,7 +5,6 @@
 
 	export let open;
 	export let defaultOpen = false;
-	export let className = '';
 
 	let internalOpen = writable(defaultOpen);
 	let contentId = uuidv4();
@@ -20,10 +19,9 @@
 	};
 
 	setContext('accordionItem', { open: open ?? $internalOpen, toggleOpen, contentId });
-	$: classes = `item ${className} ${open || internalOpen ? 'open' : ''}`;
 </script>
 
-<div class={classes}>
+<div class={`item ${open || internalOpen ? 'open' : ''}`}>
 	<slot />
 </div>
 
@@ -32,11 +30,11 @@
 		position: relative;
 	}
 
-	.item.open > .header > button:hover + * .content {
+	:global(.item.open > .header > button:hover + * .content) {
 		border-color: var(--fdsc-accordion-content-border-open);
 	}
 
-	.item.open > .header > button .expandIcon {
+	:global(.item.open > .header > button .expandIcon) {
 		transform: rotateZ(180deg);
 	}
 </style>

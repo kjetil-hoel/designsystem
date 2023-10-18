@@ -2,8 +2,6 @@
 	import { getContext } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	export let className = '';
-
 	let open = null;
 
 	$: {
@@ -13,12 +11,10 @@
 			console.error('<AccordionContent> has to be used within an <AccordionItem>');
 		}
 	}
-
-	$: classes = `content ${className}`;
 </script>
 
 {#if $open}
-	<div class={classes} transition:slide>
+	<div class="content" transition:slide>
 		{#if $$slots.content}
 			<slot name="content" />
 		{/if}
