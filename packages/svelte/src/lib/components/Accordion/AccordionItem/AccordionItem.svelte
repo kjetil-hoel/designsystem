@@ -3,7 +3,7 @@
 	import { writable } from 'svelte/store';
 	import { v4 as uuidv4 } from 'uuid';
 
-	export let open;
+	export let open = writable(undefined);
 	export let defaultOpen = false;
 
 	let internalOpen = writable(defaultOpen);
@@ -21,7 +21,7 @@
 	setContext('accordionItem', { open: open ?? $internalOpen, toggleOpen, contentId });
 </script>
 
-<div class={`item ${open || internalOpen ? 'open' : ''}`}>
+<div class="item" class:open={open || internalOpen}>
 	<slot />
 </div>
 

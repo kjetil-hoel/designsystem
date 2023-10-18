@@ -3,7 +3,7 @@
 	export let color = 'neutral';
 </script>
 
-<div class={`accordion ${color} ${border ? 'border' : ''}`}>
+<div class={`accordion ${color}`} class:border>
 	<slot />
 </div>
 

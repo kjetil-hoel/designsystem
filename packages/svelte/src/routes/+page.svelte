@@ -8,7 +8,7 @@
   import Tag from '$lib/components/Tag/Tag.svelte';
   import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
   import Modal from '$lib/components/Modal/Modal.svelte';
-	import { Accordion, AccordionContent, AccordionHeader, AccordionItem } from '$lib';
+  import { Accordion, AccordionContent, AccordionHeader, AccordionItem } from '$lib';
   
   let showModal = false;
 
@@ -69,7 +69,7 @@
 <Tag size="medium">Tag medium</Tag>
 
 <Accordion border={true} color="second">
-	<AccordionItem open={writable(true)}>
+	<AccordionItem>
 		<AccordionHeader level={1}>
 			<svelte:fragment slot="header">
 				Hvem kan registrere seg i Frivillighetsregisteret?
@@ -83,7 +83,7 @@
 			</svelte:fragment>
 		</AccordionContent>
 	</AccordionItem>
-	<AccordionItem open={writable(false)}>
+	<AccordionItem>
 		<AccordionHeader level={4}>
 			<svelte:fragment slot="header">
 				Hvordan går jeg fram for å registrere i Frivillighetsregisteret?
