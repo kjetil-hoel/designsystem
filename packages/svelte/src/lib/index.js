@@ -25,7 +25,8 @@ import { Paragraph, Heading } from './components/Typography';
 // @ts-ignore
 import { AnimateHeight } from './components/Utility';
 // @ts-ignore
-import { Textfield } from './components/Form';
+import Paragraph from './components/Typography/Paragraph/Paragraph.svelte';
+import { Textfield, Radio, RadioGroup } from './components/Form';
 
 export {
   Button,
@@ -43,4 +44,6 @@ export {
   AccordionContent,
   AccordionHeader,
   AccordionItem,
+  Radio,
+  RadioGroup,
 };
