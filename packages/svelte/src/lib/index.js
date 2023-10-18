@@ -23,9 +23,6 @@ import {
 // @ts-ignore
 import { Paragraph, Heading } from './components/Typography';
 // @ts-ignore
-import { AnimateHeight } from './components/Utility';
-// @ts-ignore
-import Paragraph from './components/Typography/Paragraph/Paragraph.svelte';
 import { Textfield, Radio, RadioGroup } from './components/Form';
 
 export {
@@ -39,7 +36,6 @@ export {
   Heading,
   Tag,
   Textfield,
-  AnimateHeight,
   Accordion,
   AccordionContent,
   AccordionHeader,
