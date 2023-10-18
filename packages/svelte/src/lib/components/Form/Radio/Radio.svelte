@@ -19,7 +19,6 @@
   export let value;
 
   let size = 'medium';
-  let checked = false;
   let selectedValue;
   let groupUniqueId;
   let error;
@@ -28,6 +27,8 @@
   const radioId = `radio-${uniqueId}`;
   const labelId = `label-${uniqueId}`;
   const descriptionId = `description-${uniqueId}`;
+
+  $: checked = value === selectedValue;
 
   const radioGroup = getContext('radioGroup');
 
