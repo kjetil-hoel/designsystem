@@ -104,7 +104,7 @@
     <input
       class={inputClasses}
       type="radio"
-      id={radioId}
+      id={labelId}
       {value}
       bind:group={selectedValue}
       name={`radio-${groupUniqueId}`}
@@ -140,7 +140,7 @@
     </svg>
   </span>
   <label
-    for={radioId}
+    for={labelId}
     class={labelClasses}
   >
     <span class={fontSizeClass}>
