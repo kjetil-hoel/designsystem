@@ -1,6 +1,6 @@
 <script>
-  import { writable } from 'svelte/store';
-  import { setContext, createEventDispatcher, onMount } from 'svelte';
+  import { setContext, createEventDispatcher } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * RadioGroup
@@ -30,11 +30,9 @@
   export let size = 'medium';
   export let hideLegend = false;
 
-  const selectedValue = writable(value);
+  const uniqueId = uuidv4();
 
-  onMount(() => {
-    selectedValue.set(defaultValue);
-  });
+  if (value === undefined || value === '') value = defaultValue;
 
   let fontSizeClass;
   switch (size) {
@@ -52,7 +50,7 @@
       break;
   }
 
-  let radioGroupClasses = `radio-group`;
+  let radioGroupClasses = `radio-group ${readOnly ? 'readonly' : ''} ${size}`;
   let legendClasses = `legend ${fontSizeClass} ${
     hideLegend ? 'visually-hidden' : ''
   }`;
@@ -65,46 +63,56 @@
     readOnly,
     disabled,
     size,
+    value,
     error,
-    selectedValue,
+    uniqueId,
     required,
-    setCheckedValue: (changedValue) => {
-      selectedValue.set(changedValue);
-      dispatch('change', changedValue);
-    },
   });
 
   const dispatch = createEventDispatcher();
+  function handleChange(event) {
+    if (event.target.type === 'radio') {
+      value = event.target.value;
+      dispatch('change', value);
+    }
+  }
 </script>
 
-<div class={radioGroupClasses}>
-  {#if legend}
-    {#if readOnly}
-      <span
-        aria-hidden
-        class="padlock-icon">🔒</span
+<form>
+  <fieldset
+    class={radioGroupClasses}
+    id={`group-${uniqueId}`}
+    aria-labelledby={`label-${uniqueId}`}
+    on:change={handleChange}
+  >
+    {#if legend}
+      {#if readOnly}
+        <span
+          aria-hidden
+          class="padlock-icon">🔒</span
+        >
+      {/if}
+      <legend
+        class={legendClasses}
+        id={`label-${uniqueId}`}
       >
+        {legend}
+      </legend>
     {/if}
-    <label
-      for="legend"
-      class={legendClasses}
-    >
-      {legend}
-    </label>
-  {/if}
-  {#if description}
-    <p class={descriptionClasses}>
-      {description}
-    </p>
-  {/if}
+    {#if description}
+      <p class={descriptionClasses}>
+        {description}
+      </p>
+    {/if}
 
-  <div class={inline ? 'radio-group-inline' : ''}>
-    <slot />
-  </div>
-  {#if error}
-    <p class={errorClasses}>{error}</p>
-  {/if}
-</div>
+    <div class={inline ? 'radio-group-inline' : ''}>
+      <slot />
+    </div>
+    {#if error}
+      <p class={errorClasses}>{error}</p>
+    {/if}
+  </fieldset>
+</form>
 
 <style>
   .radio-group-inline {
@@ -127,16 +135,6 @@
     color: var(--fds-semantic-border-danger-default);
   }
 
-  label {
-    font-weight: 500;
-  }
-  p {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-    font-weight: 400;
-    color: var(--fds-semantic-text-neutral-subtle);
-  }
-
   .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -147,5 +145,28 @@
     position: absolute;
     white-space: nowrap;
     width: 0.0625rem;
+  }
+
+  fieldset {
+    border: none;
+  }
+
+  legend {
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    display: table;
+    max-width: 100%;
+    white-space: normal;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    align-self: flex-start;
+  }
+  p {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    font-weight: 400;
+    color: var(--fds-semantic-text-neutral-subtle);
   }
 </style>

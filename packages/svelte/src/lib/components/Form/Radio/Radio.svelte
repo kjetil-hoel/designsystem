@@ -7,51 +7,31 @@
    * @prop {string} [description=''] - Description for field.
    * @prop {boolean} [disabled=false] - Disables element.
    * @prop {boolean} [readOnly=false] - Toggle readOnly.
+   * @prop {string} [label] - Label of the input element.
    * @prop {string} [value] - Value of the input element.
-   * @prop {string} [size='medium'] - Changes field size and paddings. Options are 'xsmall', 'small', 'medium'.
-   * @prop {boolean} [checked=false] - Determines if the radio button is checked or not.
    */
 
   export let description = '';
-  export let disabled = false;
-  export let readOnly = false;
+  export let disabled = undefined;
+  export let readOnly = undefined;
+  export let label;
   export let value;
-  export let size = 'medium';
-  export let checked = false;
+
+  let size = 'medium';
+  let checked = false;
 
   const radioGroup = getContext('radioGroup');
-
-  if (radioGroup && radioGroup.selectedValue) {
-    radioGroup.selectedValue.subscribe((selected) => {
-      checked = selected === value;
-    });
-  }
 
   if (radioGroup && radioGroup.size) {
     size = radioGroup.size;
   }
 
-  if (radioGroup && radioGroup.disabled) {
+  if (radioGroup && radioGroup.disabled && disabled === undefined) {
     disabled = radioGroup.disabled;
   }
 
-  if (radioGroup && radioGroup.readOnly) {
+  if (radioGroup && radioGroup.readOnly && readOnly === undefined) {
     readOnly = radioGroup.readOnly;
-  }
-
-  function toggle() {
-    if (!disabled && !readOnly && !checked) {
-      if (radioGroup && radioGroup.setCheckedValue) {
-        radioGroup.setCheckedValue(value);
-      }
-    }
-  }
-
-  function handleKeydown(event) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      toggle();
-    }
   }
 
   let iconSizeClass;
@@ -85,22 +65,32 @@
   let labelClasses = `label ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
   let descriptionClasses = `description ${fontSizeClass}`;
+
+  let inputClasses = `input ${readOnly ? 'readonly' : ''} 
+                            ${disabled ? 'disabled' : ''}`;
+
+  const slugify = (str = '') =>
+    str.toLowerCase().replace(/ /g, '-').replace(/\./g, '');
 </script>
 
 <div
   class={`${containerClasses} ${fontSizeClass}`}
-  on:click={toggle}
-  on:keydown={handleKeydown}
   tabindex="-1"
   role="radio"
   aria-checked={checked}
-  aria-label="Select an option"
+  aria-label={label}
   aria-labelledby={description}
+  id={`radio-${radioGroup.uniqueId}`}
 >
   <span class={`control radio`}>
     <input
-      class="input"
+      class={inputClasses}
       type="radio"
+      id={slugify(label)}
+      {value}
+      bind:group={radioGroup.value}
+      name={`radio-${radioGroup.uniqueId}`}
+      disabled={disabled || readOnly}
     />
     <svg
       class="icon {iconSizeClass}"
@@ -121,24 +111,22 @@
         stroke="#00315D"
         stroke-width="2"
       />
-      {#if checked}
-        <circle
-          class="checked"
-          name="checked"
-          cx="11"
-          cy="11"
-          r="4.88889"
-          fill="#0062BA"
-        />
-      {/if}
+      <circle
+        class="checked"
+        name="checked"
+        cx="11"
+        cy="11"
+        r="4.88889"
+        fill="#0062BA"
+      />
     </svg>
   </span>
   <label
-    for="label"
+    for={slugify(label)}
     class={labelClasses}
   >
     <span class={fontSizeClass}>
-      <slot />
+      {label}
     </span>
   </label>
   {#if description}

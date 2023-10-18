@@ -106,33 +106,24 @@
 >
   <Radio
     value="option1"
-    description="Lorem ipsum description option1."
-  >
-    Lorem ipsum.
-  </Radio>
+    label="Lorem ipsum."
+  />
   <Radio
     value="option2"
-    description="Lorem ipsum description option2."
-  >
-    Lorem ipsum.
-  </Radio>
+    label="Lorem ipsum 2."
+    description="Lorem ipsum description."
+  />
   <Radio
     readOnly={true}
     value="option3"
+    label="Lorem ipsum dolor sit amet."
     description="Lorem ipsum dolor sit amet description."
-  >
-    Lorem ipsum dolor sit amet.
-  </Radio>
+  />
   <Radio
     disabled={true}
     value="option4"
+    label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum description."
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  </Radio>
+  />
 </RadioGroup>
+<p>Selected RadioGroup value: {selectedValue}</p>
