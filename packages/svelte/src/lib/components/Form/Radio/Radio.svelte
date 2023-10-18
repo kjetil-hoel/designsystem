@@ -83,7 +83,10 @@
   }
   let containerClasses = `container ${spacingClass} ${
     disabled ? 'disabled' : ''
-  } ${error ? 'error' : ''} ${readOnly ? 'readonly' : ''}`;
+  } ${error ? 'error' : ''} ${readOnly ? 'readonly' : ''} ${
+    $$props.class || ''
+  }`;
+
   let labelClasses = `label ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
   let descriptionClasses = `description ${fontSizeClass}`;

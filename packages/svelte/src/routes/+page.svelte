@@ -78,19 +78,10 @@
   color="first"
   variant="outlined">Tag Outlined</Tag
 >
-
+<Button on:click={openModal}>Open Modal</Button>
 <Tag size="xsmall">Tag XS</Tag>
 <Tag size="small">Tag small</Tag>
 <Tag size="medium">Tag medium</Tag>
-
-<Button on:click={openModal}>Open Modal</Button>
-<Modal
-  show={showModal}
-  onClose={closeModal}
-/>
-
-<p />
-
 <RadioGroup
   bind:value={selectedValue}
   on:change={handleGroupChange}
@@ -127,3 +118,7 @@
   />
 </RadioGroup>
 <p>Selected RadioGroup value: {selectedValue}</p>
+<Modal
+  show={showModal}
+  onClose={closeModal}
+/>
