@@ -11,9 +11,36 @@ import Link from './components/Link/Link.svelte';
 import List from './components/List/List.svelte';
 // @ts-ignore
 import Alert from './components/Alert/Alert.svelte';
+// @ts-ignore
 import Tag from './components/Tag/Tag.svelte';
 // @ts-ignore
-import Paragraph from './components/Typography/Paragraph/Paragraph.svelte';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+} from './components/Accordion';
+// @ts-ignore
+import { Paragraph, Heading } from './components/Typography';
+// @ts-ignore
+import { AnimateHeight } from './components/Utility';
+// @ts-ignore
 import { Textfield } from './components/Form';
 
-export { Button, Modal, Select, Link, List, Alert, Paragraph, Tag, Textfield };
+export {
+  Button,
+  Modal,
+  Select,
+  Link,
+  List,
+  Alert,
+  Paragraph,
+  Heading,
+  Tag,
+  Textfield,
+  AnimateHeight,
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+};
