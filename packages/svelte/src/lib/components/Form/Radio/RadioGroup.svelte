@@ -78,41 +78,39 @@
   }
 </script>
 
-<form>
-  <fieldset
-    class={radioGroupClasses}
-    id={`group-${uniqueId}`}
-    aria-labelledby={`label-${uniqueId}`}
-    on:change={handleChange}
-  >
-    {#if legend}
-      {#if readOnly}
-        <span
-          aria-hidden
-          class="padlock-icon">🔒</span
-        >
-      {/if}
-      <legend
-        class={legendClasses}
-        id={`label-${uniqueId}`}
+<fieldset
+  class={radioGroupClasses}
+  id={`group-${uniqueId}`}
+  aria-labelledby={`label-${uniqueId}`}
+  on:change={handleChange}
+>
+  {#if legend}
+    {#if readOnly}
+      <span
+        aria-hidden
+        class="padlock-icon">🔒</span
       >
-        {legend}
-      </legend>
     {/if}
-    {#if description}
-      <p class={descriptionClasses}>
-        {description}
-      </p>
-    {/if}
+    <legend
+      class={legendClasses}
+      id={`label-${uniqueId}`}
+    >
+      {legend}
+    </legend>
+  {/if}
+  {#if description}
+    <p class={descriptionClasses}>
+      {description}
+    </p>
+  {/if}
 
-    <div class={inline ? 'radio-group-inline' : ''}>
-      <slot />
-    </div>
-    {#if error}
-      <p class={errorClasses}>{error}</p>
-    {/if}
-  </fieldset>
-</form>
+  <div class={inline ? 'radio-group-inline' : ''}>
+    <slot />
+  </div>
+  {#if error}
+    <p class={errorClasses}>{error}</p>
+  {/if}
+</fieldset>
 
 <style>
   .radio-group-inline {

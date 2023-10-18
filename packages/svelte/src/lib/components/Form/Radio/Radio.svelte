@@ -1,5 +1,6 @@
 <script>
   import { getContext } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * Radio
@@ -19,6 +20,14 @@
 
   let size = 'medium';
   let checked = false;
+  let selectedValue;
+  let groupUniqueId;
+  let error;
+
+  const uniqueId = uuidv4();
+  const radioId = `radio-${uniqueId}`;
+  const labelId = `label-${uniqueId}`;
+  const descriptionId = `description-${uniqueId}`;
 
   const radioGroup = getContext('radioGroup');
 
@@ -32,6 +41,18 @@
 
   if (radioGroup && radioGroup.readOnly && readOnly === undefined) {
     readOnly = radioGroup.readOnly;
+  }
+
+  if (radioGroup && radioGroup.uniqueId) {
+    groupUniqueId = radioGroup.uniqueId;
+  }
+
+  if (radioGroup && radioGroup.value) {
+    selectedValue = radioGroup.value;
+  }
+
+  if (radioGroup && radioGroup.error) {
+    error = radioGroup.error;
   }
 
   let iconSizeClass;
@@ -61,16 +82,13 @@
   }
   let containerClasses = `container ${spacingClass} ${
     disabled ? 'disabled' : ''
-  } ${radioGroup.error ? 'error' : ''} ${readOnly ? 'readonly' : ''}`;
+  } ${error ? 'error' : ''} ${readOnly ? 'readonly' : ''}`;
   let labelClasses = `label ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
   let descriptionClasses = `description ${fontSizeClass}`;
 
   let inputClasses = `input ${readOnly ? 'readonly' : ''} 
                             ${disabled ? 'disabled' : ''}`;
-
-  const slugify = (str = '') =>
-    str.toLowerCase().replace(/ /g, '-').replace(/\./g, '');
 </script>
 
 <div
@@ -79,17 +97,17 @@
   role="radio"
   aria-checked={checked}
   aria-label={label}
-  aria-labelledby={description}
-  id={`radio-${radioGroup.uniqueId}`}
+  aria-labelledby={labelId}
+  id={radioId}
 >
   <span class={`control radio`}>
     <input
       class={inputClasses}
       type="radio"
-      id={slugify(label)}
+      id={radioId}
       {value}
-      bind:group={radioGroup.value}
-      name={`radio-${radioGroup.uniqueId}`}
+      bind:group={selectedValue}
+      name={`radio-${groupUniqueId}`}
       disabled={disabled || readOnly}
     />
     <svg
@@ -122,7 +140,7 @@
     </svg>
   </span>
   <label
-    for={slugify(label)}
+    for={radioId}
     class={labelClasses}
   >
     <span class={fontSizeClass}>
@@ -131,7 +149,7 @@
   </label>
   {#if description}
     <p
-      id="description"
+      id={descriptionId}
       class={descriptionClasses}
     >
       {description}
