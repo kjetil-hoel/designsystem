@@ -5,31 +5,35 @@
 
 	export let level = 1;
 
-	let context = null;
+	let accordionContext = null;
+	let accordionItemContext = null;
 	let open = null;
 
 	$: {
 		try {
-			context = getContext('accordionItem');
-			open = context.open;
+			accordionContext = getContext('accordion');
+			accordionItemContext = getContext('accordionItem');
+			open = accordionItemContext.open;
 		} catch {
 			console.error('<Accordion.Header> has to be used within an <Accordion.Item>');
 		}
 	}
 	const handleClick = () => {
-		if (context) {
-			context.toggleOpen();
+		if (accordionItemContext) {
+			accordionItemContext.toggleOpen();
 		}
 	};
 </script>
 
-<svelte:element this={level && `h${level}`} class="header heading xsmall">
+<svelte:element this={`h${level}`} class="header heading xsmall">
 	<button
 		type="button"
-		class="button focusable"
+		class={`button focusable ${accordionContext.color}`}
+		class:open={$open}
+		class:border={accordionContext.border}
 		on:click={handleClick}
 		aria-expanded={$open}
-		aria-controls={context.contentId}
+		aria-controls={accordionItemContext.contentId}
 	>
 		<div aria-hidden class="expandIcon">
 			{#if !$open}
@@ -38,15 +42,20 @@
 				{@html ChevronUpIcon}
 			{/if}
 		</div>
-		<span class="paragraph small">
-			{#if $$slots.header}
+		{#if $$slots.header}
+			<span class="paragraph small">
 				<slot name="header" />
-			{/if}
-		</span>
+			</span>
+		{/if}
 	</button>
 </svelte:element>
 
 <style>
+	.border {
+		border: 1px solid var(--fdsc-accordion-border);
+		border-radius: var(--fdsc-accordion-border-radius);
+	}
+
 	.header {
 		margin: 0;
 	}
@@ -82,11 +91,67 @@
 		}
 	}
 
+	.button.neutral {
+		background: var(--fdsc-accordion-header-bg-neutral);
+	}
+	.button.subtle {
+		background: var(--fdsc-accordion-header-bg-subtle);
+	}
+
+	.button.first {
+		background: var(--fdsc-accordion-header-bg-primary);
+	}
+
+	.button.second {
+		background: var(--fdsc-accordion-header-bg-secondary);
+	}
+	
+	.button.third {
+		background: var(--fdsc-accordion-header-bg-tertiary);
+	}
+
+	.button.border {
+		border-top: 0;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.button.subtle:hover {
+			background: var(--fdsc-accordion-header-bg-subtle-hover);
+		}
+
+		.button.first:hover {
+			background: var(--fdsc-accordion-header-bg-primary-hover);
+		}
+
+		.button.second:hover {
+			background: var(--fdsc-accordion-header-bg-secondary-hover);
+		}
+
+		.button.third:hover {
+			background: var(--fdsc-accordion-header-bg-tertiary-hover);
+		}
+	}
+
+	.button.neutral.open,
+	.button.subtle.open {
+		background-color: var(--fdsc-accordion-header-bg-neutral-active);
+	}
+
+	.button.first.open,
+	.button.second.open,
+	.button.third.open {
+		background-color: rgba(0 0 0 / 0.03);
+	}
+
 	.expandIcon {
 		font-size: 1.5rem;
 		height: 1.75rem;
 		flex-shrink: 0;
 	}
+
+	.button.open:hover + * .content {
+		border-color: var(--fdsc-accordion-content-border-open);
+	}
+
 	/**
    * Apply a focus outline on an element when it is focused with keyboard
    */
@@ -107,6 +172,7 @@
 		color: var(--fds-semantic-text-neutral-default);
 		margin: 0;
 	}
+
 	.paragraph.small {
 		--fdsc-bottom-spacing: var(--fds-spacing-4);
 

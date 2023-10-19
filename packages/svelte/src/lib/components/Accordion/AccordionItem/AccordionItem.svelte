@@ -29,12 +29,4 @@
 	.item:focus-within {
 		position: relative;
 	}
-
-	:global(.item.open > .header > button:hover + * .content) {
-		border-color: var(--fdsc-accordion-content-border-open);
-	}
-
-	:global(.item.open > .header > button .expandIcon) {
-		transform: rotateZ(180deg);
-	}
 </style>
