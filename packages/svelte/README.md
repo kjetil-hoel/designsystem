@@ -27,5 +27,6 @@ WIP Component library for Statsforvalternes Fellesorganisasjon
 
 0. Navigate to the /packages/svelte folder
 1. Bump the version number of the package in package.json: `0.0.x + 1`.
-2. Use this terminal command to publish: npm publish --access public
-   2b. You may need to log in with NPM credentials if you haven't already done so
+2. Commit and push your changes
+3. Use this terminal command to publish: npm publish --access public
+   3b. You may need to log in with NPM credentials if you haven't already done so
