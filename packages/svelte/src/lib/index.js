@@ -11,10 +11,19 @@ import Link from './components/Link/Link.svelte';
 import List from './components/List/List.svelte';
 // @ts-ignore
 import Alert from './components/Alert/Alert.svelte';
+// @ts-ignore
 import Tag from './components/Tag/Tag.svelte';
 // @ts-ignore
-import Paragraph from './components/Typography/Paragraph/Paragraph.svelte';
-import { Textfield, Switch } from './components/Form';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+} from './components/Accordion';
+// @ts-ignore
+import { Paragraph, Heading } from './components/Typography';
+// @ts-ignore
+import { Textfield, Radio, RadioGroup, Switch } from './components/Form';
 
 export {
   Button,
@@ -24,7 +33,14 @@ export {
   List,
   Alert,
   Paragraph,
+  Heading,
   Tag,
   Textfield,
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  Radio,
+  RadioGroup,
   Switch,
 };

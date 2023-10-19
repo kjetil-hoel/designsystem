@@ -1,26 +1,77 @@
 <script>
+  import { writable } from 'svelte/store';
   import Alert from '$lib/components/Alert/Alert.svelte';
   import Button from '$lib/components/Button/Button.svelte';
   import Switch from '$lib/components/Form/Switch/Switch.svelte';
+  import Radio from '$lib/components/Form/Radio/Radio.svelte';
+  import RadioGroup from '$lib/components/Form/Radio/RadioGroup.svelte';
   import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
   import Link from '$lib/components/Link/Link.svelte';
   import List from '$lib/components/List/List.svelte';
   import Tag from '$lib/components/Tag/Tag.svelte';
   import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
+  import Modal from '$lib/components/Modal/Modal.svelte';
+  import {
+    Accordion,
+    AccordionContent,
+    AccordionHeader,
+    AccordionItem,
+  } from '$lib';
+
+  let showModal = false;
+
+  function openModal(event) {
+    event.stopPropagation();
+    showModal = true;
+  }
+
+  function closeModal() {
+    showModal = false;
+  }
 
   let textfieldValue = '';
-  let isChecked = false;
+  let isSwitchChecked = false;
 
-  $: if (isChecked !== undefined) {
-    console.log(isChecked);
+  $: if (isSwitchChecked !== undefined) {
+    console.log(isSwitchChecked);
   }
 
   function handleSwitchClickEvent(event) {
-    console.log('clicked', event);
+    console.log('switch clicked', event);
   }
 
   function handleSwitchChangeEvent(event) {
-    console.log('change', event.detail);
+    console.log('switch change', event.detail);
+  }
+
+  let selectedValue;
+  function handleGroupChange(event) {
+    selectedValue = event.detail;
+  }
+
+  let showError = false;
+  function toggleShowError() {
+    showError = !showError;
+  }
+
+  let isInline = false;
+  function toggleInline() {
+    isInline = !isInline;
+  }
+
+  let isHideLegend = false;
+  function toggleIsHideLegend() {
+    isHideLegend = !isHideLegend;
+  }
+
+  let isDisabled = false;
+  function toggleIsDisabled() {
+    isDisabled = !isDisabled;
+  }
+
+  let isReadOnly = false;
+  function toggleIsReadOnly() {
+    isReadOnly = !isReadOnly;
   }
 </script>
 
@@ -29,24 +80,24 @@
 <Switch
   on:click={handleSwitchClickEvent}
   on:change={handleSwitchChangeEvent}
-  bind:checked={isChecked}>Switch</Switch
+  bind:checked={isSwitchChecked}>Switch</Switch
 >
 
 <Switch
-  checked={isChecked}
+  checked={isSwitchChecked}
   disabled>Disabled Switch</Switch
 >
 <Switch
-  checked={isChecked}
+  checked={isSwitchChecked}
   readOnly>Readonly Switch</Switch
 >
 <Switch
-  checked={isChecked}
+  checked={isSwitchChecked}
   position="right">Switch Label right</Switch
 >
 
 <Switch
-  checked={isChecked}
+  checked={isSwitchChecked}
   description="Ipsum lorem dorem durem">Switch with Description</Switch
 >
 
@@ -98,6 +149,95 @@
   variant="outlined">Tag Outlined</Tag
 >
 
+<Accordion
+  border={true}
+  color="second"
+>
+  <AccordionItem>
+    <AccordionHeader level={1}>
+      <svelte:fragment slot="header">
+        Hvem kan registrere seg i Frivillighetsregisteret?
+      </svelte:fragment>
+    </AccordionHeader>
+    <AccordionContent>
+      <svelte:fragment slot="content">
+        For å kunne bli registrert i Frivillighetsregisteret, må organisasjonen
+        drive frivillig virksomhet. Det er bare foreninger, stiftelser og
+        aksjeselskap som kan registreres. Virksomheten kan ikke dele ut midler
+        til fysiske personer. Virksomheten må ha et styre.
+      </svelte:fragment>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem>
+    <AccordionHeader level={4}>
+      <svelte:fragment slot="header">
+        Hvordan går jeg fram for å registrere i Frivillighetsregisteret?
+      </svelte:fragment>
+    </AccordionHeader>
+    <AccordionContent>
+      <svelte:fragment slot="content">
+        Virksomheten må være registrert i Enhetsregisteret før den kan bli
+        registrert i Frivillighetsregisteret. Du kan registrere i begge
+        registrene samtidig i Samordnet registermelding.
+      </svelte:fragment>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+<Button on:click={openModal}>Open Modal</Button>
+
 <Tag size="xsmall">Tag XS</Tag>
 <Tag size="small">Tag small</Tag>
 <Tag size="medium">Tag medium</Tag>
+
+<RadioGroup
+  bind:value={selectedValue}
+  on:change={handleGroupChange}
+  inline={isInline}
+  legend="RadioGroup legend"
+  description="RadioGroup description"
+  size="medium"
+  defaultValue="option1"
+  readOnly={isReadOnly}
+  disabled={isDisabled}
+  error={showError ? 'Lorem ipsum error.' : ''}
+  hideLegend={isHideLegend}
+>
+  <Radio
+    value="option1"
+    label="Lorem ipsum label."
+  />
+  <Radio
+    value="option2"
+    label="Lorem ipsum dolor sit label."
+    description="Lorem ipsum dolor sit description."
+  />
+  <Radio
+    readOnly={true}
+    value="option3"
+    label="Lorem ipsum dolor sit amet readonly label."
+    description="Lorem ipsum dolor sit amet readonly description."
+  />
+  <Radio
+    disabled={true}
+    value="option4"
+    label="Lorem ipsum dolor sit amet disabled label."
+    description="Lorem ipsum dolor sit amet disabled description."
+  />
+</RadioGroup>
+<Button on:click={toggleIsHideLegend}
+  >{isHideLegend ? 'Show legend' : 'Hide legend'}</Button
+>
+<Button on:click={toggleInline}>{isInline ? 'Vertical' : 'Inline'}</Button>
+<Button on:click={toggleShowError}
+  >{showError ? 'Hide error' : 'Show error'}</Button
+>
+<Button on:click={toggleIsDisabled}>{isDisabled ? 'Enable' : 'Disable'}</Button>
+<Button on:click={toggleIsReadOnly}
+  >{isReadOnly ? 'Selectable' : 'ReadOnly'}</Button
+>
+<p>Selected RadioGroup value: {selectedValue}</p>
+<Modal
+  show={showModal}
+  onClose={closeModal}
+/>
