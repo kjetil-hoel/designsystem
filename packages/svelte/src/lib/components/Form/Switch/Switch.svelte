@@ -1,81 +1,185 @@
-<script lang="ts">
+<script>
+  import { createEventDispatcher, onMount } from 'svelte';
   /**
-   * Switch component for toggling between two states.
+   * `Switch` component for toggling between two states.
    * @prop {string} [value=''] - Value of the `input` element.
    * @prop {string} [position='left'] - Position of switch around the label. Options are 'left', 'right'.
-   * @prop {string} [size='medium'] - Size of the switch. Options are 'medium'.
-   * @prop {boolean} [disabled=false] - Whether the switch is disabled.
-   * @prop {boolean} [readOnly=false] - Whether the switch is read-only.
-   * @prop {string} [description=''] - Description for the switch.
+   * @prop {boolean} [disabled=false] - If `Switch` is disabled.
+   * @prop {boolean} [readOnly=false] - If `Switch` is read-only.
+   * @prop {string} [description=''] - Description text for the `Switch`.
+   * @prop {string} [size='medium'] - Size of the paragraph. Options are 'small', 'medium', 'large'.
+   * @prop {string} [id=''] - ID for the `input` element.
+   * @prop {boolean} [checked=false] - If `Switch` is checked.
    */
-  export let checked = false; // Renamed from `value` and changed to boolean
+  export let value = '';
   export let position = 'left';
-  export let size = 'medium';
   export let disabled = false;
   export let readOnly = false;
   export let description = '';
+  export let size = 'medium';
+  export let id = '';
+  export let checked = false;
 
-  // This function omits certain properties from an object, similar to the omit utility from lodash
-  const omit = (obj, keysToOmit) => {
-    const result = {};
-    Object.keys(obj).forEach((key) => {
-      if (!keysToOmit.includes(key)) {
-        result[key] = obj[key];
-      }
-    });
-    return result;
-  };
+  const dispatch = createEventDispatcher();
 
-  // We omit certain properties that we don't want to add to the input element
-  const inputProps = $$props.class ? omit($$props, ['class']) : $$props;
+  function handleInputClick(event) {
+    if (readOnly) {
+      event.preventDefault();
+      return;
+    }
+    dispatch('click', event);
+  }
 
-  // Computed class logic
-  let computedClass = `switch ${disabled ? 'disabled' : ''} ${
-    readOnly ? 'readonly' : ''
-  } ${position === 'right' ? 'right' : ''} ${$$props.class || ''}`;
+  function handleInputChange(event) {
+    if (readOnly) {
+      event.preventDefault();
+      return;
+    }
+    dispatch('change', { checked: event.target.checked });
+  }
+
+  $: computedClass = `wrapper paragraph ${size} ${
+    position === 'right' ? 'right' : ''
+  } ${disabled ? 'disabled' : ''} ${readOnly ? 'readonly' : ''} ${
+    $$props.class || ''
+  }`;
+  $: labelClass = `label ${size}`;
+  $: descriptionClass = `paragraph description ${size}`;
 </script>
 
-<label class={computedClass}>
+<div class={computedClass}>
   <input
+    class="input"
+    {id}
+    {value}
     type="checkbox"
+    readonly={readOnly}
+    {disabled}
     bind:checked
-    {...inputProps}
-    disabled={disabled || readOnly}
+    on:click={handleInputClick}
+    on:change={handleInputChange}
   />
-  <span class="slider" />
+  <svg
+    class="icon"
+    width="54"
+    height="32"
+    viewBox="0 0 56 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      class="track"
+      x="1"
+      y="1"
+      width="54"
+      height="32"
+      rx="16"
+      stroke="currentcolor"
+      fill="currentcolor"
+    />
+    <g class="thumb">
+      <circle
+        cx="17"
+        cy="17"
+        r="14"
+        fill="currentcolor"
+      />
+      <path
+        class="checkmark"
+        d="M18.1958 5.63756C18.8792 6.32098 18.8792 7.42902 18.1958 8.11244L10.4041 15.9041C9.72068 16.5875 8.61264 16.5875 7.92922 15.9041L3.80422 11.7791C3.1208 11.0957 3.1208 9.98765 3.80422 9.30423C4.48764 8.62081 5.59568 8.62081 6.27909 9.30423L9.16666 12.1918L15.7209 5.63756C16.4043 4.95415 17.5123 4.95415 18.1958 5.63756Z"
+        fill="currentcolor"
+      />
+    </g>
+  </svg>
+
   {#if $$slots.default}
-    <span>
+    <label
+      class={labelClass}
+      for={id}
+    >
+      {#if readOnly}
+        <!-- PadlockLockedFillIcon from aksel-navikt should come here -->
+        <span
+          aria-hidden
+          class="padlock">🔒</span
+        >
+      {/if}
       <slot />
-    </span>
+    </label>
   {/if}
   {#if description}
-    <div class="description">{description}</div>
+    <div
+      id="description-{id}"
+      class={descriptionClass}
+    >
+      {description}
+    </div>
   {/if}
-</label>
+</div>
 
 <style>
+  .wrapper {
+    display: grid;
+    align-items: center;
+    width: fit-content;
+    min-height: 44px;
+    gap: 0 var(--fds-spacing-2);
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'input label'
+      '. description';
+  }
   .switch {
     --fds-inner-focus-border-color: var(--fds-semantic-border-focus-boxshadow);
     --fds-outer-focus-border-color: var(--fds-semantic-border-focus-outline);
     --fds-focus-border-width: 3px;
     --fds-transition: 200ms;
-
     min-width: 44px;
     min-height: 44px;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
-    grid-template-areas:
-      'input label'
-      '. description';
-    gap: 0 var(--fds-spacing-2);
-    grid-auto-flow: column;
+  }
+
+  .input {
+    min-width: 54px;
+    min-height: 32px;
+    width: 100%;
+    opacity: 0;
+    grid-area: input;
+    cursor: pointer;
   }
 
   @media (prefers-reduced-motion) {
     .container {
       --fds-transition: 0;
     }
+  }
+
+  .paragraph {
+    --fdsc-typography-font-family: inherit;
+    --fdsc-bottom-spacing: var(--fds-spacing-5);
+
+    color: var(--fds-semantic-text-neutral-default);
+    margin: 0;
+  }
+  .paragraph.large {
+    --fdsc-bottom-spacing: var(--fds-spacing-6);
+
+    font: var(--fds-typography-paragraph-large);
+    font-family: var(--fdsc-typography-font-family);
+  }
+  .paragraph.medium {
+    --fdsc-bottom-spacing: var(--fds-spacing-5);
+
+    font: var(--fds-typography-paragraph-medium);
+    font-family: var(--fdsc-typography-font-family);
+  }
+  .paragraph.small {
+    --fdsc-bottom-spacing: var(--fds-spacing-4);
+
+    font: var(--fds-typography-paragraph-small);
+    font-family: var(--fdsc-typography-font-family);
   }
 
   .right {
@@ -94,16 +198,15 @@
     margin: auto;
     overflow: visible;
     border-radius: 16px;
+    --fds-transition: 200ms;
   }
 
   .label {
     grid-area: label;
-    min-height: 44px;
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
     gap: var(--fds-spacing-1);
-    align-items: center;
     cursor: pointer;
   }
 
@@ -112,16 +215,6 @@
     padding-left: 3px;
     margin-top: calc(var(--fds-spacing-2) * -1);
     color: var(--fds-semantic-text-neutral-subtle);
-  }
-
-  .input {
-    min-width: 44px;
-    width: 100%;
-    min-height: 44px;
-    opacity: 0;
-    margin: 0;
-    grid-area: input;
-    cursor: pointer;
   }
 
   .readonly > .input,

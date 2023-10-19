@@ -9,12 +9,46 @@
   import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
 
   let textfieldValue = '';
-  $: isChecked = false;
+  let isChecked = false;
+
+  $: if (isChecked !== undefined) {
+    console.log(isChecked);
+  }
+
+  function handleSwitchClickEvent(event) {
+    console.log('clicked', event);
+  }
+
+  function handleSwitchChangeEvent(event) {
+    console.log('change', event.detail);
+  }
 </script>
 
 <h1>Test components here!</h1>
 
-<Switch checked={isChecked} />
+<Switch
+  on:click={handleSwitchClickEvent}
+  on:change={handleSwitchChangeEvent}
+  bind:checked={isChecked}>Switch</Switch
+>
+
+<Switch
+  checked={isChecked}
+  disabled>Disabled Switch</Switch
+>
+<Switch
+  checked={isChecked}
+  readOnly>Readonly Switch</Switch
+>
+<Switch
+  checked={isChecked}
+  position="right">Switch Label right</Switch
+>
+
+<Switch
+  checked={isChecked}
+  description="Ipsum lorem dorem durem">Switch with Description</Switch
+>
 
 <Button>First</Button>
 <Button color="second">Secondary</Button>
