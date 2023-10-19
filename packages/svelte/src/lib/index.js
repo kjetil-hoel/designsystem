@@ -14,6 +14,17 @@ import Alert from './components/Alert/Alert.svelte';
 import Tag from './components/Tag/Tag.svelte';
 // @ts-ignore
 import Paragraph from './components/Typography/Paragraph/Paragraph.svelte';
-import { Textfield } from './components/Form';
+import { Textfield, Switch } from './components/Form';
 
-export { Button, Modal, Select, Link, List, Alert, Paragraph, Tag, Textfield };
+export {
+  Button,
+  Modal,
+  Select,
+  Link,
+  List,
+  Alert,
+  Paragraph,
+  Tag,
+  Textfield,
+  Switch,
+};
