@@ -13,7 +13,12 @@
    * @prop {string} [error] - Error message to display.
    * @prop {string} [prefix] - Prefix for field.
    * @prop {string} [suffix] - Suffix for field.
+   * @prop {number} [characterLimit=null] - Sets limit for number of characters.
+   * @prop {any} [characterLimitLabel=null] - Sets custom label for shown character limit (function is possible to pass in, see example).
    */
+
+  import CharacterCounter from '../CharacterCounter.svelte';
+
   export let label = '';
   export let description = '';
   export let size = 'medium';
@@ -25,6 +30,8 @@
   export let error = false;
   export let prefix = '';
   export let suffix = '';
+  export let characterLimit = null;
+  export let characterLimitLabel = null;
 
   // Computed class names for the component elements
   let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
@@ -90,6 +97,15 @@
       </div>
     {/if}
   </div>
+  {#if characterLimit}
+    <CharacterCounter
+      maxCount={characterLimit}
+      {value}
+      id="characterCountLabel"
+      {size}
+      label={characterLimitLabel}
+    />
+  {/if}
   {#if error}
     <div
       class={errorMessageClasses}
