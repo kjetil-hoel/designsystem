@@ -1,4 +1,7 @@
 <script>
+  import CharacterCounter from '../CharacterCounter.svelte';
+  import { v4 as uuidv4 } from 'uuid';
+
   /**
    * Text input field
    *
@@ -17,8 +20,6 @@
    * @prop {any} [characterLimitLabel=null] - Sets custom label for shown character limit (function is possible to pass in, see example).
    */
 
-  import CharacterCounter from '../CharacterCounter.svelte';
-
   export let label = '';
   export let description = '';
   export let size = 'medium';
@@ -32,6 +33,8 @@
   export let suffix = '';
   export let characterLimit = null;
   export let characterLimitLabel = null;
+
+  let componentId = uuidv4();
 
   // Computed class names for the component elements
   let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
@@ -101,7 +104,7 @@
     <CharacterCounter
       maxCount={characterLimit}
       {value}
-      id="characterCountLabel"
+      id={`character-counter-${componentId}`}
       {size}
       label={characterLimitLabel}
     />
