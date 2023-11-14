@@ -2,12 +2,14 @@
   import MultiSelectOption from './MultiSelectOption.svelte';
   import SingleSelectOption from './SingleSelectOption.svelte';
   import Chevron from './Chevron.svelte';
+  import ClearButton from './ClearButton.svelte';
 
   export let multiple = false;
   export let inputId;
   export let placeholder;
   export let ariaLabel;
   export let hasFilter;
+  export let options;
   export let searchTerm;
   export let searchLabel;
   export let selected;
@@ -15,6 +17,32 @@
   export let removeOption;
   export let handleSelectControlClick;
   export let clearAll;
+  export let onFilterChange;
+
+  //let filteredOptions = options;
+
+  /*   $: if (hasFilter) {
+    let filteredOptions = options.filter((option) =>
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    filteredOptions = options;
+  }
+ */
+  let inputValue = '';
+
+  // Update inputValue based on user input
+  function updateInputValue(event) {
+    inputValue = event.target.value;
+    // implement filter logic here or in a reactive statement?
+    onFilterChange(inputValue); // Notify parent component of the filter change
+  }
+
+  // Existing logic to update inputValue based on selected option
+  $: if (!multiple && selected) {
+    inputValue = selected.label;
+  } else if (!hasFilter) {
+    inputValue = '';
+  }
 </script>
 
 <div
@@ -22,14 +50,6 @@
   on:click={handleSelectControlClick}
 >
   <div class="inputContainer">
-    {#if hasFilter}
-      <input
-        bind:value={searchTerm}
-        class="filterInput"
-        placeholder={searchLabel}
-        aria-label={searchLabel}
-      />
-    {/if}
     {#if multiple}
       <div class="selectedOptions">
         {#each selected as selectedOption (selectedOption.value)}
@@ -40,26 +60,26 @@
           />
         {/each}
       </div>
-      <!-- Add Clear All Button here if required -->
-    {:else if selected}
-      <SingleSelectOption option={selected} />
-    {:else}
-      <input
-        class="textInput"
-        id={inputId}
-        {placeholder}
-        aria-label={ariaLabel}
-        readonly
-      />
     {/if}
+    <input
+      bind:value={inputValue}
+      on:input={updateInputValue}
+      class="textInput {hasFilter ? '' : 'no-filter'}"
+      id={inputId}
+      placeholder={multiple && !hasFilter && selected && selected.length > 0
+        ? ''
+        : placeholder}
+      aria-label={ariaLabel}
+      readonly={readOnly || (!multiple && !hasFilter)}
+    />
   </div>
+  {#if multiple && selected.length > 0}
+    <ClearButton
+      handleClick={clearAll}
+      isClearAll
+    />
+  {/if}
   <div class="controlIcons">
-    {#if multiple && selected.length > 0}
-      <button
-        class="clearAll"
-        on:click={clearAll}>X</button
-      >
-    {/if}
     <Chevron />
   </div>
 </div>
@@ -82,9 +102,13 @@
     min-height: var(--field-height-inside);
     max-width: 100%;
     outline: none;
+    &.no-filter {
+      cursor: pointer;
+    }
   }
 
   .controlIcons {
+    height: 100%;
     display: flex;
     align-items: center;
     gap: var(--fds-spacing-2);

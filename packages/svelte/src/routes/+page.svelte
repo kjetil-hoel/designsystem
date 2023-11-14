@@ -334,7 +334,7 @@
 <br />
 <br />
 <h1 class="componentHeader">SELECT</h1>
-<form class="selectForm">
+<div class="selectForm">
   <Select
     {options}
     bind:selected={unSelected}
@@ -350,6 +350,13 @@
   <Select
     {options}
     bind:selected={unSelected}
+    label="Single, has filter"
+    hasFilter
+  />
+
+  <Select
+    {options}
+    bind:selected={unSelected}
     placeholder="Placeholder text"
     label="Single w/ placeholder"
   />
@@ -360,16 +367,24 @@
     error={new Error('Error message')}
     label="Single, unselected, w/ error"
   />
-</form>
+</div>
 <br />
 <h1 class="componentHeader">MULTI SELECT</h1>
 <br />
-<form class="selectForm">
+<div class="selectForm">
   <Select
     {options}
     bind:selected={multiUnselected}
     multiple
     label="Multi, unselected"
+  />
+
+  <Select
+    {options}
+    bind:selected={multiUnselected}
+    multiple
+    hasFilter
+    label="Multi, has filter"
   />
 
   <Select
@@ -394,7 +409,7 @@
     multiple
     label="Multi, preselected, readonly"
   />
-</form>
+</div>
 <br />
 
 <h1 class="componentHeader">Tabs</h1>

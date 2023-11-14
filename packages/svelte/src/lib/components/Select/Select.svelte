@@ -145,6 +145,7 @@
   }
 
   function removeOption(optionToRemove) {
+    console.log('remove');
     if (multiple && Array.isArray(selected)) {
       selected = selected.filter(
         (option) => option.value !== optionToRemove.value,
@@ -213,7 +214,14 @@
   }
 
   let searchTerm = '';
+  let filteredOptions = options;
 
+  function handleFilterChange(newFilter) {
+    searchTerm = newFilter;
+    filteredOptions = options.filter((option) =>
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }
   /*  $: filteredOptions = options.filter((option) => {
     return (
       (!hideSelected || !isSelected(option)) &&
@@ -251,12 +259,14 @@
     {multiple}
     {handleSelectControlClick}
     {clearAll}
+    {options}
+    onFilterChange={handleFilterChange}
   />
 
   <div class="dropdown-container">
     <SelectDropdown
       {isDropdownVisible}
-      {options}
+      options={filteredOptions}
       {selectOption}
       {isSelected}
       {hideSelected}
