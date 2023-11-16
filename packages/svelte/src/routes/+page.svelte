@@ -91,10 +91,29 @@
   let singleSelectValue = '';
   let multiSelectValues = [];
 
-  const options = [
+  $: options = [
     { label: 'Norge', value: '1' },
     { label: 'Sverige', value: '2' },
     { label: 'Outer Planets Alliance', value: '3' },
+  ];
+
+  $: optionsWithDescriptions = [
+    {
+      label: 'Norge',
+      value: '1',
+      description: 'Dårlige i fotball, gode i olje',
+    },
+    {
+      label: 'Sverige',
+      value: '2',
+      description: 'Bedre i fotball, snakker litt rart',
+    },
+    {
+      label: 'Outer Planets Alliance',
+      value: '3',
+      description:
+        'Undertrykkede masser som må finne seg i det meste, inntil videre',
+    },
   ];
 
   $: unSelected = null;
@@ -358,14 +377,21 @@
     {options}
     bind:selected={unSelected}
     placeholder="Placeholder text"
-    label="Single w/ placeholder"
+    label="Single w/ placeholder & description"
+    description="Dette er en beskrivelse"
   />
 
   <Select
     {options}
     bind:selected={unSelected}
-    error={new Error('Error message')}
+    error="Error message"
     label="Single, unselected, w/ error"
+  />
+
+  <Select
+    options={optionsWithDescriptions}
+    bind:selected={unSelected}
+    label="Single, unselected, w/ option descriptions"
   />
 </div>
 <br />
@@ -408,6 +434,13 @@
     readOnly
     multiple
     label="Multi, preselected, readonly"
+  />
+
+  <Select
+    options={optionsWithDescriptions}
+    bind:selected={multiUnselected}
+    multiple
+    label="Multi, unselected, w/ option descriptions"
   />
 </div>
 <br />

@@ -1,6 +1,7 @@
 <script>
+  import { getContext } from 'svelte';
+
   import MultiSelectOption from './MultiSelectOption.svelte';
-  import SingleSelectOption from './SingleSelectOption.svelte';
   import Chevron from './Chevron.svelte';
   import ClearButton from './ClearButton.svelte';
 
@@ -9,17 +10,14 @@
   export let placeholder;
   export let ariaLabel;
   export let hasFilter;
-  export let options;
-  export let searchTerm;
-  export let searchLabel;
-  export let selected;
   export let readOnly = false;
   export let removeOption;
   export let handleSelectControlClick;
   export let clearAll;
-  export let onFilterChange;
+  export let handleFilterChange;
 
-  //let filteredOptions = options;
+  const selectContext = getContext('selectContext-' + inputId);
+  $: selected = $selectContext.selected;
 
   /*   $: if (hasFilter) {
     let filteredOptions = options.filter((option) =>
@@ -34,12 +32,12 @@
   function updateInputValue(event) {
     inputValue = event.target.value;
     // implement filter logic here or in a reactive statement?
-    onFilterChange(inputValue); // Notify parent component of the filter change
+    handleFilterChange(inputValue); // Notify parent component of the filter change
   }
 
   // Existing logic to update inputValue based on selected option
-  $: if (!multiple && selected) {
-    inputValue = selected.label;
+  $: if (!multiple && selected.length > 0) {
+    inputValue = selected[0].label;
   } else if (!hasFilter) {
     inputValue = '';
   }
@@ -49,9 +47,9 @@
   class="field {multiple ? 'multiple' : 'single'}"
   on:click={handleSelectControlClick}
 >
-  <div class="inputContainer">
+  <div class="input-container">
     {#if multiple}
-      <div class="selectedOptions">
+      <div class="selected-options">
         {#each selected as selectedOption (selectedOption.value)}
           <MultiSelectOption
             option={selectedOption}
@@ -85,7 +83,7 @@
 </div>
 
 <style lang="scss">
-  .inputContainer {
+  .input-container {
     flex-grow: 1;
     display: flex;
     align-items: center;
@@ -115,7 +113,7 @@
     margin-right: var(--fds-spacing-1);
   }
 
-  .selectedOptions {
+  .selected-options {
     display: flex;
     flex-wrap: wrap;
     gap: var(--fds-spacing-2);
@@ -142,7 +140,7 @@
     font-size: var(--font_size);
     min-height: 1.75rem;
     width: 100%;
-    padding: 0.25rem;
+    padding: 0.25rem 0;
     &:hover {
       cursor: pointer;
     }
