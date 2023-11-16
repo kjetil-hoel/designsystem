@@ -3,13 +3,12 @@
 
   export let handleClick;
   export let deleteButtonLabel = 'Delete';
-  export let isClearAll = false;
 </script>
 
 <button
   on:click={handleClick}
   aria-label={deleteButtonLabel}
-  class={`delete-button${isClearAll ? ' clear-all' : ''}`}><Cross /></button
+  class={'delete-button clear-all'}><Cross /></button
 >
 
 <style>

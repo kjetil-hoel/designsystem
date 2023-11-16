@@ -5,34 +5,26 @@
   import Chevron from './Chevron.svelte';
   import ClearButton from './ClearButton.svelte';
 
-  export let multiple = false;
+  export let multiple;
   export let inputId;
   export let placeholder;
-  export let ariaLabel;
   export let hasFilter;
-  export let readOnly = false;
+  export let readOnly;
   export let removeOption;
   export let handleSelectControlClick;
   export let clearAll;
   export let handleFilterChange;
+  export let searchLabel;
 
   const selectContext = getContext('selectContext-' + inputId);
   $: selected = $selectContext.selected;
 
-  /*   $: if (hasFilter) {
-    let filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
-    filteredOptions = options;
-  }
- */
   let inputValue = '';
 
-  // Update inputValue based on user input
+  // Update filter inputValue
   function updateInputValue(event) {
     inputValue = event.target.value;
-    // implement filter logic here or in a reactive statement?
-    handleFilterChange(inputValue); // Notify parent component of the filter change
+    handleFilterChange(inputValue);
   }
 
   // Existing logic to update inputValue based on selected option
@@ -67,17 +59,14 @@
       placeholder={multiple && !hasFilter && selected && selected.length > 0
         ? ''
         : placeholder}
-      aria-label={ariaLabel}
+      aria-label={searchLabel}
       readonly={readOnly || (!multiple && !hasFilter)}
     />
   </div>
   {#if multiple && selected.length > 0}
-    <ClearButton
-      handleClick={clearAll}
-      isClearAll
-    />
+    <ClearButton handleClick={clearAll} />
   {/if}
-  <div class="controlIcons">
+  <div class="chevron-container">
     <Chevron />
   </div>
 </div>
@@ -105,7 +94,7 @@
     }
   }
 
-  .controlIcons {
+  .chevron-container {
     height: 100%;
     display: flex;
     align-items: center;

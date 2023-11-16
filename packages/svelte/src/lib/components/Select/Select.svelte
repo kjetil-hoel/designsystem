@@ -178,20 +178,6 @@
     });
   }
 
-  function isSelected(option) {
-    console.log('isSelescted');
-    if (multiple) {
-      console.log('isSelected multiple');
-      return (
-        Array.isArray(selected) &&
-        selected.some((selectedOption) => selectedOption.value === option.value)
-      );
-    } else {
-      console.log('isSelected elsse');
-      return selected && 'value' in selected && selected.value === option.value;
-    }
-  }
-
   function openDropdown() {
     if (!disabled && !readOnly) {
       isDropdownVisible = true;
@@ -214,7 +200,8 @@
 
   function clearAll() {
     if (multiple) {
-      selected = [];
+      selectedStore.set([]);
+      selectContext.update((ctx) => ({ ...ctx, selected: [] }));
     }
   }
 
@@ -252,6 +239,7 @@
 <div
   bind:this={node}
   class="select-container"
+  aria-label={ariaLabel}
 >
   {#if label}
     <label
@@ -267,7 +255,6 @@
   <SelectControl
     {inputId}
     {placeholder}
-    {ariaLabel}
     {hasFilter}
     {readOnly}
     {removeOption}
@@ -275,13 +262,13 @@
     {handleSelectControlClick}
     {clearAll}
     {handleFilterChange}
+    {searchLabel}
   />
 
   <SelectDropdown
     {isDropdownVisible}
     options={filteredOptions}
     {selectOption}
-    {isSelected}
     {hideSelected}
     {multiple}
     {inputId}
