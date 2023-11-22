@@ -1,7 +1,11 @@
 {
   "name": "@kjetil-hoel/design-system-svelte",
   "license": "MIT",
+<<<<<<< HEAD
   "version": "0.0.50",
+=======
+  "version": "0.0.55",
+>>>>>>> main
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
