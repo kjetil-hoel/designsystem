@@ -51,7 +51,28 @@
     error = $checkboxGroup.error;
   }
 
+  function handleChange(event) {
+    if (event.target.checked) {
+      checkboxGroup.update((storeValue) => ({
+        ...storeValue,
+        value: [...storeValue.value, value],
+      }));
+    } else {
+      checkboxGroup.update((storeValue) => ({
+        ...storeValue,
+        value: storeValue.value.filter((v) => v !== value),
+      }));
+    }
+  }
+
   const sizes = {
+    xsmall: {
+      iconSizeClass: 'icon-xsmall',
+      fontSizeClass: 'font-xsmall',
+      spacingClass: 'spacing-xsmall',
+      controlClass: 'control-xsmall',
+      paddingClass: 'padding-xsmall',
+    },
     small: {
       iconSizeClass: 'icon-small',
       fontSizeClass: 'font-small',
@@ -74,20 +95,6 @@
       paddingClass: 'padding-large',
     },
   };
-
-  function handleChange(event) {
-    if (event.target.checked) {
-      checkboxGroup.update((storeValue) => ({
-        ...storeValue,
-        value: [...storeValue.value, value],
-      }));
-    } else {
-      checkboxGroup.update((storeValue) => ({
-        ...storeValue,
-        value: storeValue.value.filter((v) => v !== value),
-      }));
-    }
-  }
 
   /**
    * @param {string | number} size
@@ -141,6 +148,7 @@
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect
+        class="box"
         x="1"
         y="1"
         width="20"
@@ -150,14 +158,13 @@
         fill="white"
         stroke-width="2"
         stroke-linejoin="round"
-        class="box"
       />
       <path
+        class="checked"
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
         fill="white"
-        class="checked"
       />
     </svg>
   </span>
@@ -186,8 +193,17 @@
     min-height: 44px;
   }
 
-  .spacing {
-    padding-left: calc(var(--fds-spacing-6) + 17px);
+  .spacing-xsmall {
+    padding-left: var(--fds-spacing-6);
+  }
+  .spacing-small {
+    padding-left: var(--fds-spacing-7);
+  }
+  .spacing-medium {
+    padding-left: calc(var(--fds-spacing-8) + var(--fds-spacing-1));
+  }
+  .spacing-large {
+    padding-left: calc(var(--fds-spacing-8) + var(--fds-spacing-3));
   }
 
   .icon {
@@ -204,13 +220,9 @@
     border-radius: var(--fds-border_radius-interactive);
   }
 
-  .label,
-  .description {
-    margin-left: 3rem; /* Adjust spacing as needed */
-  }
-
   .label {
-    padding-left: 3px;
+    padding-left: 1.1875rem;
+    margin-left: -1rem;
     min-height: 44px;
     min-width: min-content;
     display: inline-flex;
@@ -232,6 +244,7 @@
     --fds-focus-border-width: 3px;
 
     position: absolute;
+    margin-left: -0.6rem;
     left: 0;
     top: 0;
     min-width: 44px;
@@ -339,6 +352,35 @@
       > .icon
       > .box {
       stroke: var(--fds-semantic-border-input-hover);
+    }
+    .font-xsmall {
+      font-size: 0.8125rem;
+    }
+    .font-small {
+      font-size: 0.9375rem;
+    }
+    .font-medium {
+      font-size: 1.125rem;
+    }
+    .font-large {
+      font-size: 1.25rem;
+    }
+
+    .icon-xsmall {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+    .icon-small {
+      height: 1.375em;
+      width: 1.375em;
+    }
+    .icon-medium {
+      height: 1.6875rem;
+      width: 1.6875rem;
+    }
+    .icon-large {
+      height: 2rem;
+      width: 2rem;
     }
   }
 </style>

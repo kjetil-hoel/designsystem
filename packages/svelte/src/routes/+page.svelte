@@ -361,11 +361,13 @@
 <h1 class="componentHeader">CHECKBOX</h1>
 <br />
 <div class="selectForm">
+  <h3>Checkbox</h3>
   <Checkbox
     value="opt1"
     label="Hello, world!"
     description="Hello, how are you fine sir?"
   />
+  <h3>Checkbox Group</h3>
   <CheckboxGroup
     bind:value={selectedValues}
     on:change={handleCheckboxGroupChange}
