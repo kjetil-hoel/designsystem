@@ -4,20 +4,20 @@
   export let handleClick;
   export let deleteButtonLabel = 'Delete';
   export let disabled;
+  export let readOnly;
 </script>
 
 <button
-  on:click={disabled ? null : handleClick}
+  on:click={disabled || readOnly ? null : handleClick}
   aria-label={deleteButtonLabel}
-  class={`delete-button clear-all ${disabled ? 'disabled' : ''}`}
+  class={`delete-button ${disabled ? 'disabled' : ''} ${
+    readOnly ? 'read-only' : ''
+  }`}
   {disabled}><Cross /></button
 >
 
 <style>
   .delete-button {
-    --delete-cross-box-border-radius: var(
-      --interactive-components-border-radius-normal
-    );
     --delete-cross-box-color-hover: var(--colors-red-500);
     --delete-cross-box-size: 25px;
     --delete-cross-size: 12px;
@@ -28,7 +28,6 @@
     --delete-cross-color-hover: white;
     color: #fff;
     background: none;
-    border-radius: var(--delete-cross-box-border-radius);
     border: none;
     cursor: var(--interactive-element-cursor);
     height: var(--delete-cross-box-size);
@@ -37,30 +36,29 @@
     );
     width: var(--delete-cross-box-size);
 
-    &:disabled {
-      --delete-cross-color: var(--delete-cross-color-disabled);
+    color: inherit;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: auto;
+    background-color: transparent;
 
-      cursor: auto;
-      background-color: transparent;
-    }
-
-    &:hover:not(:disabled) {
+    &:hover {
       background-color: var(--colors-red-500);
-      &.clear-all {
-        background-color: var(--colors-red-500);
-        color: white;
-      }
+      color: white;
     }
 
-    &.clear-all {
-      color: inherit;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      margin-left: auto;
+    &:disabled {
+      color: lightgrey;
+      cursor: not-allowed;
       background-color: transparent;
-      &:disabled {
-        color: lightgrey;
+    }
+
+    &.read-only {
+      &:hover {
+        cursor: not-allowed;
+        background-color: transparent;
+        color: inherit;
       }
     }
   }
