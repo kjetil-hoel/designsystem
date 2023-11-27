@@ -5,6 +5,7 @@
   import Radio from '$lib/components/Form/Radio/Radio.svelte';
   import RadioGroup from '$lib/components/Form/Radio/RadioGroup.svelte';
   import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
+  import Checkbox from '$lib/components/Form/Checkbox/Checkbox.svelte';
   import Link from '$lib/components/Link/Link.svelte';
   import List from '$lib/components/List/List.svelte';
   import ListItem from '$lib/components/List/ListItem.svelte';
@@ -28,6 +29,7 @@
   import CheckmarkCircleFillIcon from '@navikt/aksel-icons/svg/CheckmarkCircleFill.svg?raw';
   import XMarkOctagonFillIcon from '@navikt/aksel-icons/svg/XMarkOctagonFill.svg?raw';
   import Spinner from '$lib/components/Spinner/Spinner.svelte';
+  import CheckboxGroup from '$lib/components/Form/Checkbox/CheckboxGroup.svelte';
 
   function handleTabChange(value) {
     console.log('Tab changed:', value);
@@ -59,6 +61,11 @@
   let selectedValue;
   function handleGroupChange(event) {
     selectedValue = event.detail;
+  }
+
+  let selectedValues;
+  function handleCheckboxGroupChange(event) {
+    selectedValues = [...event.detail];
   }
 
   let showError = false;
@@ -310,7 +317,7 @@
   legend="RadioGroup legend"
   description="RadioGroup description"
   size="medium"
-  defaultValue="option1"
+  defaultValue={true ? 'option1' : 'option2'}
   readOnly={isReadOnly}
   disabled={isDisabled}
   error={showError ? 'Lorem ipsum error.' : ''}
@@ -351,6 +358,39 @@
   >{isReadOnly ? 'Selectable' : 'ReadOnly'}</Button
 >
 <br />
+<h1 class="componentHeader">CHECKBOX</h1>
+<br />
+<div class="selectForm">
+  <Checkbox
+    value="opt1"
+    label="Hello, world!"
+    description="Hello, how are you fine sir?"
+  />
+  <CheckboxGroup
+    bind:value={selectedValues}
+    on:change={handleCheckboxGroupChange}
+    legend="CheckboxGroup legend"
+    description="CheckboxGroup description"
+    size="medium"
+    defaultValue={['opt1']}
+    readOnly={isReadOnly}
+    disabled={isDisabled}
+    error={showError ? 'Lorem ipsum error.' : ''}
+    hideLegend={isHideLegend}
+  >
+    <Checkbox
+      value="opt1"
+      label="Hello, world!"
+      description="Hello, how are you fine sir?"
+    />
+    <Checkbox
+      value="opt2"
+      label="Hello, world!"
+      description="Hello, how are you fine sir?"
+    />
+  </CheckboxGroup>
+  <p>Selected values: {selectedValues}</p>
+</div>
 <br />
 <h1 class="componentHeader">SELECT</h1>
 <div class="selectForm">
