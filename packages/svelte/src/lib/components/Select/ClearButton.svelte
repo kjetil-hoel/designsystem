@@ -4,15 +4,12 @@
   export let handleClick;
   export let deleteButtonLabel = 'Delete';
   export let disabled;
-  export let readOnly;
 </script>
 
 <button
-  on:click={disabled || readOnly ? null : handleClick}
+  on:click={disabled ? null : handleClick}
   aria-label={deleteButtonLabel}
-  class={`delete-button ${disabled ? 'disabled' : ''} ${
-    readOnly ? 'read-only' : ''
-  }`}
+  class={`delete-button clear-all ${disabled ? 'disabled' : ''}`}
   {disabled}><Cross /></button
 >
 
@@ -52,6 +49,9 @@
       color: lightgrey;
       cursor: not-allowed;
       background-color: transparent;
+      &:disabled {
+        color: lightgrey;
+      }
     }
 
     &.read-only {

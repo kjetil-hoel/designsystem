@@ -53,12 +53,12 @@
     if (!inputElement) return;
     inputElement.focus();
   }
-  /* 
+
   function updateValue() {
     if (initialized && !isFiltering && !multiple && selected) {
       inputValue = selected.label;
     }
-  } */
+  }
 
   function handleClearAll() {
     if (multiple) {
@@ -70,7 +70,7 @@
     }
   }
 
-  /* $: if (!multiple && selected !== null) {
+  $: if (!multiple && selected !== null) {
     if (!isFiltering) {
       inputValue = selected.label;
     }
@@ -87,21 +87,6 @@
       }
     }
     updateValue();
-  } */
-
-  $: {
-    // Check if it's not multiple select and an option is selected
-    if (!multiple && selected) {
-      // Update inputValue based on whether the user is filtering
-      inputValue = isFiltering ? inputValue : selected.label;
-      if (initialized && !isFiltering) {
-        inputValue = selected.label;
-      }
-    } else if (!hasFilter) {
-      // Reset the input value if there's no filter
-      inputValue = '';
-    }
-    /* updateValue(); */
   }
 </script>
 
@@ -162,7 +147,6 @@
     <ClearButton
       handleClick={handleClearAll}
       {disabled}
-      {readOnly}
     />
   {/if}
   <div class="separator {disabled ? 'disabled' : ''}" />
