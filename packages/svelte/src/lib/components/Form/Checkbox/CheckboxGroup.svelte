@@ -29,17 +29,20 @@
   export let size = 'medium';
   export let hideLegend = false;
 
-  const uniqueId = uuidv4();
-
   let initialized = false;
-  onMount(() => {
-    if (!initialized && value.length === 0) {
-      value = [...defaultValue];
-      initialized = true;
-    }
+  let fontSizeClass;
+
+  const uniqueId = uuidv4();
+  const checkboxGroup = writable({
+    readOnly,
+    disabled,
+    size,
+    value,
+    error,
+    uniqueId,
+    required,
   });
 
-  let fontSizeClass;
   switch (size) {
     case 'xsmall':
       fontSizeClass = 'font-xsmall';
@@ -58,6 +61,26 @@
       break;
   }
 
+  onMount(() => {
+    if (!initialized && value.length === 0) {
+      value = [...defaultValue];
+      initialized = true;
+    }
+  });
+
+  function handleCheckboxChange(change) {
+    if (
+      change.target instanceof HTMLInputElement &&
+      change.target.type === 'checkbox'
+    ) {
+      if (change.target.checked) {
+        value = [...value, change.target.value];
+      } else {
+        value = value.filter((v) => v !== change.target.value);
+      }
+    }
+  }
+
   $: checkboxGroupClasses = `checkbox-group ${
     readOnly ? 'readonly' : ''
   } ${size}`;
@@ -69,16 +92,6 @@
     hideLegend ? 'visually-hidden' : ''
   }`;
   $: errorClasses = `error ${fontSizeClass}`;
-
-  const checkboxGroup = writable({
-    readOnly,
-    disabled,
-    size,
-    value,
-    error,
-    uniqueId,
-    required,
-  });
 
   $: setContext('checkboxGroup', checkboxGroup);
 
@@ -92,19 +105,6 @@
       value: value,
       required: required,
     }));
-  }
-
-  function handleCheckboxChange(change) {
-    if (
-      change.target instanceof HTMLInputElement &&
-      change.target.type === 'checkbox'
-    ) {
-      if (change.target.checked) {
-        value = [...value, change.target.value];
-      } else {
-        value = value.filter((v) => v !== change.target.value);
-      }
-    }
   }
 </script>
 
