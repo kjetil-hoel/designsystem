@@ -114,26 +114,30 @@
   aria-labelledby={`label-${uniqueId}`}
   on:change={handleCheckboxChange}
 >
-  {#if legend}
-    <div class={`${legendWrapperClasses}`}>
-      {#if readOnly}
-        <span
-          aria-hidden
-          class="padlock-icon">🔒</span
-        >
+  {#if legend || description}
+    <div class="legend-description">
+      {#if legend}
+        <div class={`${legendWrapperClasses}`}>
+          {#if readOnly}
+            <span
+              aria-hidden
+              class="padlock-icon">🔒</span
+            >
+          {/if}
+          <legend
+            class={legendClasses}
+            id={`label-${uniqueId}`}
+          >
+            {legend}
+          </legend>
+        </div>
       {/if}
-      <legend
-        class={legendClasses}
-        id={`label-${uniqueId}`}
-      >
-        {legend}
-      </legend>
+      {#if description}
+        <p class={descriptionClasses}>
+          {description}
+        </p>
+      {/if}
     </div>
-  {/if}
-  {#if description}
-    <p class={descriptionClasses}>
-      {description}
-    </p>
   {/if}
   <div class="checkboxes">
     <slot />
@@ -205,7 +209,8 @@
     color: var(--fds-semantic-text-neutral-subtle);
   }
 
-  .checkboxes {
-    margin-top: var(--spacing-3, 0.84375rem);
+  .legend-description {
+    margin-top: 0;
+    margin-bottom: var(--spacing-3, 0.84375rem);
   }
 </style>

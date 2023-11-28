@@ -364,10 +364,10 @@
 <div class="selectForm">
   <h3>Standalone Checkbox</h3>
   <Checkbox
-    value={'value'}
+    value="standalone"
     bind:checked={selectedCheckValue}
-    label="Hello, world!"
-    description="Hello, how are you fine sir?"
+    label="Lorem ipsum standalone label"
+    description="Lorem ipsum standalone description"
   />
   <p>Checked value: {selectedCheckValue}</p>
   <h3>Checkbox Group</h3>
@@ -377,21 +377,32 @@
     legend="CheckboxGroup legend"
     description="CheckboxGroup description"
     size="medium"
-    defaultValue={['opt1']}
+    defaultValue={['option2']}
     readOnly={isReadOnly}
     disabled={isDisabled}
     error={showError ? 'Lorem ipsum error.' : ''}
     hideLegend={isHideLegend}
   >
     <Checkbox
-      value="opt1"
-      label="Hello, world!"
-      description="Hello, how are you fine sir?"
+      value="option1"
+      label="Lorem ipsum label"
     />
     <Checkbox
-      value="opt2"
-      label="Hello, world!"
-      description="Hello, how are you fine sir?"
+      value="option2"
+      label="Lorem ipsum pre-selected label"
+      description="Lorem ipsum description"
+    />
+    <Checkbox
+      value="option3"
+      label="Lorem ipsum readonly label"
+      description="Lorem ipsum readonly description"
+      readOnly
+    />
+    <Checkbox
+      value="option4"
+      label="Lorem ipsum disabled label"
+      description="Lorem ipsum disabled description"
+      disabled
     />
   </CheckboxGroup>
   <p>Selected values: {selectedValues}</p>

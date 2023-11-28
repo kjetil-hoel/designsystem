@@ -168,8 +168,8 @@
         y="1"
         width="20"
         height="20"
-        rx="2px"
-        ry="2px"
+        rx="0.125rem"
+        ry="0.125rem"
         fill="white"
         stroke-width="2"
         stroke-linejoin="round"
@@ -204,8 +204,8 @@
 <style lang="scss">
   .container {
     position: relative;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
   }
 
   .spacing-xsmall {
@@ -224,8 +224,8 @@
   .icon {
     grid-area: input;
     pointer-events: none;
-    height: 1.75em;
-    width: 1.75em;
+    height: 1.75rem;
+    width: 1.75rem;
     margin: auto;
     overflow: visible;
   }
@@ -238,7 +238,7 @@
   .label {
     padding-left: 1.1875rem;
     margin-left: -1rem;
-    min-height: 44px;
+    min-height: 2.75rem;
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
@@ -248,7 +248,7 @@
   }
 
   .description {
-    padding-left: 3px;
+    padding-left: 0.1875rem;
     margin-top: calc(var(--fds-spacing-2) * -1);
     color: var(--fds-semantic-text-neutral-subtle);
   }
@@ -256,14 +256,14 @@
   .control {
     --fds-inner-focus-border-color: var(--fds-semantic-border-focus-boxshadow);
     --fds-outer-focus-border-color: var(--fds-semantic-border-focus-outline);
-    --fds-focus-border-width: 3px;
+    --fds-focus-border-width: 0.1875rem;
 
     position: absolute;
-    margin-left: -0.6rem;
+
     left: 0;
     top: 0;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
     display: inline-grid;
     grid: [input] 1fr / [input] 1fr;
     gap: var(--fds-spacing-2);
@@ -368,6 +368,20 @@
       > .box {
       stroke: var(--fds-semantic-border-input-hover);
     }
+
+    .control-xsmall {
+      margin-left: -0.8rem;
+    }
+    .control-small {
+      margin-left: -0.75rem;
+    }
+    .control-medium {
+      margin-left: -0.55rem;
+    }
+    .control-large {
+      margin-left: -0.45rem;
+    }
+
     .font-xsmall {
       font-size: 0.8125rem;
     }
