@@ -68,6 +68,8 @@
     selectedValues = [...event.detail];
   }
 
+  let selectedCheckValue = false;
+
   let showError = false;
   function toggleShowError() {
     showError = !showError;
@@ -359,14 +361,15 @@
 >
 <br />
 <h1 class="componentHeader">CHECKBOX</h1>
-<br />
 <div class="selectForm">
-  <h3>Checkbox</h3>
+  <h3>Standalone Checkbox</h3>
   <Checkbox
-    value="opt1"
+    value={'value'}
+    bind:checked={selectedCheckValue}
     label="Hello, world!"
     description="Hello, how are you fine sir?"
   />
+  <p>Checked value: {selectedCheckValue}</p>
   <h3>Checkbox Group</h3>
   <CheckboxGroup
     bind:value={selectedValues}

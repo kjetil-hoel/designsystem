@@ -17,53 +17,22 @@
   export let disabled = undefined;
   export let readOnly = undefined;
   export let value;
+  export let checked = false;
 
   let size;
-  let selectedValue;
   let groupUniqueId;
   let error;
+  let groupValue;
 
   let groupDisabled = false;
   let groupReadOnly = false;
+  let isPartOfGroup = false;
 
   const uniqueId = uuidv4();
   const checkboxId = `checkbox-${uniqueId}`;
   const labelId = `label-${uniqueId}`;
   const descriptionId = `description-${uniqueId}`;
-
-  $: checked = value === selectedValue;
-
   const checkboxGroup = getContext('checkboxGroup');
-  let groupValue;
-
-  if (checkboxGroup) {
-    checkboxGroup.subscribe(($checkboxGroup) => {
-      groupValue = $checkboxGroup.value;
-      selectedValue = groupValue.includes(value); // Update the checked state based on group value
-    });
-  }
-
-  $: if ($checkboxGroup) {
-    size = $checkboxGroup.size;
-    groupDisabled = $checkboxGroup.disabled;
-    groupReadOnly = $checkboxGroup.readOnly;
-    groupUniqueId = $checkboxGroup.uniqueId;
-    error = $checkboxGroup.error;
-  }
-
-  function handleChange(event) {
-    if (event.target.checked) {
-      checkboxGroup.update((storeValue) => ({
-        ...storeValue,
-        value: [...storeValue.value, value],
-      }));
-    } else {
-      checkboxGroup.update((storeValue) => ({
-        ...storeValue,
-        value: storeValue.value.filter((v) => v !== value),
-      }));
-    }
-  }
 
   const sizes = {
     xsmall: {
@@ -96,11 +65,57 @@
     },
   };
 
+  if (checkboxGroup) {
+    isPartOfGroup = true;
+    checkboxGroup.subscribe(($checkboxGroup) => {
+      groupValue = $checkboxGroup.value;
+      if (groupValue.includes(value)) {
+        checked = true;
+      }
+    });
+  } else {
+    checked = checked;
+  }
+
+  function handleStandaloneChange(event) {
+    checked = event.target.checked;
+  }
+
+  function handleGroupChange(event) {
+    if (event.target.checked) {
+      checkboxGroup.update((storeValue) => ({
+        ...storeValue,
+        value: [...storeValue.value, value],
+      }));
+    } else {
+      checkboxGroup.update((storeValue) => ({
+        ...storeValue,
+        value: storeValue.value.filter((v) => v !== value),
+      }));
+    }
+  }
+
+  function handleChange(event) {
+    if (isPartOfGroup) {
+      handleGroupChange(event);
+    } else {
+      handleStandaloneChange(event);
+    }
+  }
+
   /**
    * @param {string | number} size
    */
   function getSizeClasses(size) {
     return sizes[size] || sizes.medium;
+  }
+
+  $: if ($checkboxGroup) {
+    size = $checkboxGroup.size;
+    groupDisabled = $checkboxGroup.disabled;
+    groupReadOnly = $checkboxGroup.readOnly;
+    groupUniqueId = $checkboxGroup.uniqueId;
+    error = $checkboxGroup.error;
   }
 
   $: sizeClasses = getSizeClasses(size);
@@ -134,7 +149,7 @@
       type="checkbox"
       id={labelId}
       {value}
-      bind:checked={selectedValue}
+      bind:checked
       on:change={handleChange}
       name={`checkbox-${groupUniqueId}`}
       disabled={disabled || readOnly || groupDisabled || groupReadOnly}
